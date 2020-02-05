@@ -1,6 +1,6 @@
 package com.brama.chess.core.fauls;
 
-public class LeavingBoardException extends ChessBaseException {
+public class LeavingBoardException extends InvalidMoveException {
 
    public LeavingBoardException() {
 

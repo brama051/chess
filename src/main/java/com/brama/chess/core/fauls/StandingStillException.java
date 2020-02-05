@@ -1,6 +1,6 @@
 package com.brama.chess.core.fauls;
 
-public class StandingStillException extends ChessBaseException {
+public class StandingStillException extends InvalidMoveException {
 
    public StandingStillException() {
 

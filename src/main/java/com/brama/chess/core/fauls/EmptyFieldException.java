@@ -1,6 +1,6 @@
 package com.brama.chess.core.fauls;
 
-public class EmptyFieldException extends ChessBaseException {
+public class EmptyFieldException extends InvalidMoveException {
 
 
    public EmptyFieldException() {

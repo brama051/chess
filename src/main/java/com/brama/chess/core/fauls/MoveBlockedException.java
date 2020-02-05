@@ -1,6 +1,6 @@
 package com.brama.chess.core.fauls;
 
-public class MoveBlockedException extends ChessBaseException {
+public class MoveBlockedException extends InvalidMoveException {
 
    public MoveBlockedException() {
 

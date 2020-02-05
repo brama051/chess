@@ -1,6 +1,6 @@
 package com.brama.chess.core.fauls;
 
-public class WrongPieceException extends ChessBaseException {
+public class WrongPieceException extends InvalidMoveException {
 
    public WrongPieceException() {
 
