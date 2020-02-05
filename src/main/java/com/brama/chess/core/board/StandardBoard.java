@@ -1,19 +1,17 @@
 package com.brama.chess.core.board;
 
 import com.brama.chess.core.Move;
-import com.brama.chess.core.pieces.Bishop;
-import com.brama.chess.core.pieces.King;
-import com.brama.chess.core.pieces.Knight;
-import com.brama.chess.core.pieces.Pawn;
-import com.brama.chess.core.pieces.Piece;
-import com.brama.chess.core.pieces.Queen;
-import com.brama.chess.core.pieces.Rook;
+import com.brama.chess.core.fauls.*;
+import com.brama.chess.core.pieces.*;
+import com.brama.chess.core.pieces.properties.PieceColor;
+import com.brama.chess.core.pieces.properties.PieceType;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.brama.chess.core.pieces.properties.PieceColor.*;
+import static com.brama.chess.core.pieces.properties.PieceColor.BLACK;
+import static com.brama.chess.core.pieces.properties.PieceColor.WHITE;
 
 public class StandardBoard extends Board {
 
@@ -56,13 +54,12 @@ public class StandardBoard extends Board {
       capturedPieces = new LinkedHashSet<>();
    }
 
-   // replace this by handling array index out of bounds exception
-   private boolean moveIsWithinBoundaries(Field destination) {
+   private boolean fieldIsOnBoard(Field destination) throws LeavingBoardException {
 
       if (destination.getX() < 0 || destination.getX() > 7
-          || destination.getY() < 0 || destination.getY() > 7) {
+            || destination.getY() < 0 || destination.getY() > 7) {
 
-         return false;
+         throw new LeavingBoardException();
       }
 
       return true;
@@ -72,8 +69,9 @@ public class StandardBoard extends Board {
    public void execute(Move move) {
 
       getPiece(move.getDestination()).ifPresent(capturedPieces::add);
-      getPiece(move.getSource()).ifPresent(piece -> piece.setLocation(move.getDestination()));
+      getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
 
+      nextTurn();
    }
 
    @Override
@@ -83,11 +81,55 @@ public class StandardBoard extends Board {
    }
 
    @Override
-   public void validate(Move move) {
+   public void validate(Move move) throws InvalidMoveException {
 
+      fieldIsOnBoard(move.getSource());
+      fieldIsOnBoard(move.getDestination());
+      moveIsNotInAStill(move);
+      movingPieceExists(move.getSource());
+      movingPieceIsRightColor(move.getSource(), getTurn());
+      movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
+      movingPieceIsNotCapturingOpponentsKing(move.getDestination());
       // validate leaving board exception by handling array index out of bounds exception
       // check source
       // check destination
       // perform piece move validation
+   }
+
+   private void movingPieceIsNotCapturingOpponentsKing(Field destination) throws CapturingKingException {
+      Optional<Piece> piece = getPiece(destination);
+      if (piece.isPresent() && piece.get().getType().equals(PieceType.KING)) {
+         throw new CapturingKingException();
+      }
+   }
+
+   private void moveIsNotInAStill(Move move) throws StandingStillException {
+      if (move.getSource().equals(move.getDestination())) {
+         throw new StandingStillException();
+      }
+   }
+
+   private void movingPieceIsNotCapturingWrongColor(PieceColor color, Field destination) throws FriendlyFireException {
+
+      Optional<Piece> opponentsPiece = getPiece(destination);
+      if (opponentsPiece.isPresent() && color.equals(opponentsPiece.get().getColor())) {
+         throw new FriendlyFireException();
+      }
+   }
+
+   private void movingPieceIsRightColor(Field color, PieceColor turn) throws WrongPieceException {
+
+      if (!color.equals(turn)) {
+         throw new WrongPieceException();
+      }
+
+   }
+
+   private void movingPieceExists(Field field) throws EmptyFieldException {
+
+      Optional<Piece> piece = getPiece(field);
+      if (!piece.isPresent()) {
+         throw new EmptyFieldException();
+      }
    }
 }

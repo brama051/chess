@@ -1,7 +1,9 @@
 package com.brama.chess.core.board;
 
 import com.brama.chess.core.Move;
+import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.Piece;
+import com.brama.chess.core.pieces.properties.PieceColor;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -11,6 +13,7 @@ public abstract class Board {
    final Piece[][] fields;
    private final int height;
    private final int width;
+   private int turn;
 
    Board(int height, int width, Piece[][] fields) {
 
@@ -33,7 +36,7 @@ public abstract class Board {
 
    public abstract Optional<Piece> getPiece(Field field);
 
-   public abstract void validate(Move move);
+   public abstract void validate(Move move) throws InvalidMoveException;
 
    public Optional<Piece> getPiece(int y, int x) {
 
@@ -60,4 +63,16 @@ public abstract class Board {
 
       fields[location.getY()][location.getX()] = piece;
    }
+
+   public PieceColor getTurn() {
+
+      return turn % 2 == 0 ? PieceColor.WHITE : PieceColor.BLACK;
+   }
+
+   public void nextTurn() {
+
+      turn++;
+   }
+
+
 }

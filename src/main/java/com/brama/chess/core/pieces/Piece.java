@@ -25,17 +25,16 @@ public abstract class Piece {
       return board.getPieceLocation(this);
    }
 
-   public void setLocation(Field location) {
+   public void moveToLocation(Field location) {
 
       Optional<Field> currentLocation = board.getPieceLocation(this);
-
-      // if piece is on board
       if (currentLocation.isPresent()) {
-
          this.board.setAt(null, currentLocation.get());
          this.board.setAt(this, location);
       }
    }
+
+   abstract boolean isCheckingEnemyKing();
 
    abstract boolean canMove(Field destination);
 
