@@ -1,9 +1,9 @@
 package com.brama.chess.core.fauls;
 
-public class WrongPieceException extends RuntimeException {
+public class WrongPieceException extends ChessBaseException {
 
-    public WrongPieceException() {
+   public WrongPieceException() {
 
-        super("Player is trying to doMove opponent's piece");
-    }
+      super("Player is trying to move opponent's piece");
+   }
 }

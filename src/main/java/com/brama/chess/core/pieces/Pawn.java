@@ -5,19 +5,20 @@ import com.brama.chess.core.board.Field;
 public class Pawn extends Piece {
 
 
-    public Pawn(PieceColor color, Field location) {
+   public Pawn(PieceColor color, Field location) {
 
-        super(PieceType.PAWN, color, location);
+      super(PieceType.PAWN, color, location);
 
-    }
+   }
 
-    @Override
-    public boolean canMove(Field destination) {
-        return false;
-    }
+   @Override
+   public boolean canMove(Field destination) {
 
-    @Override
-    public void move() {
+      return false;
+   }
 
-    }
+   @Override
+   public void move() {
+
+   }
 }

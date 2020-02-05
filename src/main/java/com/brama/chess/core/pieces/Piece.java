@@ -4,46 +4,49 @@ import com.brama.chess.core.board.Field;
 
 public abstract class Piece {
 
-    private final PieceType type;
-    private final PieceColor color;
-    private Field location;
+   private final PieceType type;
+   private final PieceColor color;
+   private Field location;
 
-    public Piece(PieceType type, PieceColor color, Field location) {
-        this.type = type;
-        this.color = color;
-        this.location = location;
-    }
+   public Piece(PieceType type, PieceColor color, Field location) {
 
-    public Field getLocation() {
-        return location;
-    }
+      this.type = type;
+      this.color = color;
+      this.location = location;
+   }
 
-    abstract boolean canMove(Field destination);
+   public Field getLocation() {
 
-    abstract void move();
+      return location;
+   }
 
-    // King can't be taken
-    boolean canBeCaptured() {
-        return true;
-    }
+   public void setLocation(Field location) {
 
-    public PieceType getType() {
+      this.location = location;
+   }
 
-        return type;
-    }
+   abstract boolean canMove(Field destination);
 
-    public PieceColor getColor() {
+   abstract void move();
 
-        return color;
-    }
+   // King can't be taken
+   boolean canBeCaptured() {
 
-    public boolean isWhite() {
+      return true;
+   }
 
-        return PieceColor.WHITE.equals(color);
-    }
+   public PieceType getType() {
 
-    public void setLocation(Field location) {
+      return type;
+   }
 
-        this.location = location;
-    }
+   public PieceColor getColor() {
+
+      return color;
+   }
+
+   public boolean isWhite() {
+
+      return PieceColor.WHITE.equals(color);
+   }
 }

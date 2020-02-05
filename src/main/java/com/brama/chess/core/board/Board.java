@@ -3,34 +3,55 @@ package com.brama.chess.core.board;
 import com.brama.chess.core.Move;
 import com.brama.chess.core.pieces.Piece;
 
+import java.util.Objects;
+import java.util.Optional;
+
 public abstract class Board {
 
-    private final int height;
-    private final int width;
-    final Piece[][] fields;
+   final Piece[][] fields;
+   private final int height;
+   private final int width;
 
-    Board(int height, int width, Piece[][] fields) {
+   Board(int height, int width, Piece[][] fields) {
 
-        this.height = height;
-        this.width = width;
-        this.fields = fields;
-    }
+      this.height = height;
+      this.width = width;
+      this.fields = fields;
+   }
 
-    public int getHeight() {
-        return height;
-    }
+   public int getHeight() {
 
-    public int getWidth() {
-        return width;
-    }
+      return height;
+   }
 
-    public abstract void execute(Move move);
+   public int getWidth() {
 
-    public abstract void validate(Move move);
+      return width;
+   }
 
-    public Piece getPiece(int y, int x) {
+   public abstract void execute(Move move);
 
-        return fields[y][x];
-    }
+   public abstract void validate(Move move);
+
+   public Piece getPiece(int y, int x) {
+
+      return fields[y][x];
+   }
+
+   public Optional<Field> getLocation(Piece piece) {
+
+      for (int y = 0; y < height; y++) {
+         for (int x = 0; x < width; x++) {
+
+            Piece tmp = fields[y][x];
+            if (Objects.nonNull(tmp) && tmp.equals(piece)) {
+
+               return Optional.of(new Field(y, x));
+            }
+         }
+      }
+
+      return Optional.empty();
+   }
 
 }

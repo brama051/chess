@@ -1,9 +1,9 @@
 package com.brama.chess.core.fauls;
 
-public class MoveBlockedException extends RuntimeException {
+public class MoveBlockedException extends ChessBaseException {
 
-    public MoveBlockedException() {
+   public MoveBlockedException() {
 
-        super("Player is trying to doMove piece to unavailable destination");
-    }
+      super("Player is trying to doMove piece to unavailable destination");
+   }
 }

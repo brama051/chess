@@ -4,18 +4,19 @@ import com.brama.chess.core.board.Field;
 
 public class King extends Piece {
 
-    public King(PieceColor color, Field location) {
+   public King(PieceColor color, Field location) {
 
-        super(PieceType.KING, color, location);
-    }
+      super(PieceType.KING, color, location);
+   }
 
-    @Override
-    boolean canMove(Field destination) {
-        return false;
-    }
+   @Override
+   boolean canMove(Field destination) {
 
-    @Override
-    void move() {
+      return false;
+   }
 
-    }
+   @Override
+   void move() {
+
+   }
 }

@@ -4,17 +4,19 @@ import com.brama.chess.core.board.Field;
 
 public class Queen extends Piece {
 
-    public Queen(PieceColor color, Field location) {
-        super(PieceType.QUEEN, color, location);
-    }
+   public Queen(PieceColor color, Field location) {
 
-    @Override
-    boolean canMove(Field destination) {
-        return false;
-    }
+      super(PieceType.QUEEN, color, location);
+   }
 
-    @Override
-    void move() {
+   @Override
+   boolean canMove(Field destination) {
 
-    }
+      return false;
+   }
+
+   @Override
+   void move() {
+
+   }
 }

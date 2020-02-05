@@ -1,9 +1,9 @@
 package com.brama.chess.core.fauls;
 
-public class CheckException extends RuntimeException {
+public class CheckException extends ChessBaseException {
 
-    public CheckException() {
+   public CheckException() {
 
-        super("Player is trying to make a doMove while his King is checked");
-    }
+      super("Player is trying to make a doMove while his King is checked");
+   }
 }
