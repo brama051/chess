@@ -9,9 +9,11 @@ import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.fauls.LeavingBoardException;
 import com.brama.chess.core.fauls.StandingStillException;
 import com.brama.chess.core.fauls.WrongPieceException;
+import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -86,8 +88,8 @@ public abstract class Board {
       fieldIsOnBoard(move.getDestination());
       moveIsNotInAStill(move);
       movingPieceExists(move.getSource());
-      movingPieceIsRightColor(move.getSource(), getTurn());
-      movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
+      movingPieceIsRightColor(move.getSource(), getPlayingColor());
+      movingPieceIsNotCapturingWrongColor(getPlayingColor(), move.getDestination());
       movingPieceIsNotCapturingOpponentsKing(move.getDestination());
       finishingAMoveWouldLeavePlayerInCheck(move);
 
@@ -114,14 +116,67 @@ public abstract class Board {
    }
 
    private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
-      // todo:
-      // perform move
-      // if any opponent's pieces are checking current King, throw exception
-      if (false) {
-         // revert move
+
+      Optional<Piece> capturedPiece = capture(move);
+      //todo: if any opponent's pieces are checking current King, throw exception
+      if (atLeastOneOpposingPieceCanCheckPlayingKing()) {
+         revert(move, capturedPiece);
          throw new CheckException();
       }
-      // revert move
+      revert(move, capturedPiece);
+   }
+
+   private boolean atLeastOneOpposingPieceCanCheckPlayingKing() {
+
+      Set<Piece> opposingPieces = getAllPieces(getWaitingColor());
+      King playingKing = getKing(getPlayingColor());
+      for (Piece opposingPiece : opposingPieces) {
+         Move attackMove = new Move(
+               opposingPiece.getLocation().orElseThrow(RuntimeException::new),
+               playingKing.getLocation().orElseThrow(RuntimeException::new)
+         );
+         try {
+            opposingPiece.validate(attackMove);
+            return true;
+         } catch (InvalidMoveException e) {
+            // continue
+         }
+
+      }
+      return false;
+   }
+
+   private Set<Piece> getAllPieces(PieceColor color) {
+
+      Set<Piece> pieces = new HashSet<>();
+      for (int y = 0; y < height; y++) {
+         for (int x = 0; x < width; x++) {
+
+            Piece tmp = fields[y][x];
+            if (Objects.nonNull(tmp) && tmp.getColor().equals(color)) {
+
+               pieces.add(tmp);
+            }
+         }
+      }
+      return pieces;
+   }
+
+   private King getKing(PieceColor color) {
+
+      for (int y = 0; y < height; y++) {
+         for (int x = 0; x < width; x++) {
+
+            Piece tmp = fields[y][x];
+            if (Objects.nonNull(tmp)
+                  && tmp.getColor().equals(color)
+                  && tmp.getType().equals(PieceType.KING)) {
+
+               return (King) tmp;
+            }
+         }
+      }
+      throw new RuntimeException("There should always be king on the board");
    }
 
    private void movingPieceIsNotCapturingOpponentsKing(Field destination)
@@ -191,9 +246,14 @@ public abstract class Board {
       fields[location.getY()][location.getX()] = piece;
    }
 
-   public PieceColor getTurn() {
+   public PieceColor getPlayingColor() {
 
       return turn % 2 == 0 ? PieceColor.WHITE : PieceColor.BLACK;
+   }
+
+   public PieceColor getWaitingColor() {
+
+      return turn % 2 != 0 ? PieceColor.WHITE : PieceColor.BLACK;
    }
 
    public void nextTurn() {

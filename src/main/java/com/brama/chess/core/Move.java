@@ -13,6 +13,12 @@ public class Move {
       destination = new Field(move[3], move[2]);
    }
 
+   public Move(Field source, Field destination) {
+
+      this.source = source;
+      this.destination = destination;
+   }
+
    public Field getSource() {
 
       return source;
