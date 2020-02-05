@@ -1,14 +1,15 @@
 package com.brama.chess.core.board;
 
-import com.brama.chess.core.Move;
-import com.brama.chess.core.pieces.*;
-
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import static com.brama.chess.core.pieces.properties.PieceColor.BLACK;
 import static com.brama.chess.core.pieces.properties.PieceColor.WHITE;
+
+import com.brama.chess.core.pieces.Bishop;
+import com.brama.chess.core.pieces.King;
+import com.brama.chess.core.pieces.Knight;
+import com.brama.chess.core.pieces.Pawn;
+import com.brama.chess.core.pieces.Piece;
+import com.brama.chess.core.pieces.Queen;
+import com.brama.chess.core.pieces.Rook;
 
 public class StandardBoard extends Board {
 
