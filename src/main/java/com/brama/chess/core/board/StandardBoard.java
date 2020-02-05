@@ -54,15 +54,13 @@ public class StandardBoard extends Board {
       capturedPieces = new LinkedHashSet<>();
    }
 
-   private boolean fieldIsOnBoard(Field destination) throws LeavingBoardException {
+   private void fieldIsOnBoard(Field destination) throws LeavingBoardException {
 
-      if (destination.getX() < 0 || destination.getX() > 7
-            || destination.getY() < 0 || destination.getY() > 7) {
+      if (destination.getX() < 0 || destination.getX() > getWidth() - 1
+            || destination.getY() < 0 || destination.getY() > getHeight() - 1) {
 
          throw new LeavingBoardException();
       }
-
-      return true;
    }
 
    @Override
