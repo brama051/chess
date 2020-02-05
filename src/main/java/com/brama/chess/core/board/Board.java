@@ -31,6 +31,8 @@ public abstract class Board {
 
    public abstract void execute(Move move);
 
+   public abstract Optional<Piece> getPiece(Field field);
+
    public abstract void validate(Move move);
 
    public Optional<Piece> getPiece(int y, int x) {

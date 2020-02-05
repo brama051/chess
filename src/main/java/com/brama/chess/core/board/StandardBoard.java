@@ -10,7 +10,7 @@ import com.brama.chess.core.pieces.Queen;
 import com.brama.chess.core.pieces.Rook;
 
 import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.brama.chess.core.pieces.properties.PieceColor.*;
@@ -71,13 +71,15 @@ public class StandardBoard extends Board {
    @Override
    public void execute(Move move) {
 
-      Piece movingPiece = fields[move.getSource().getY()][move.getSource().getX()];
-      Piece capturedPiece = fields[move.getDestination().getY()][move.getDestination().getX()];
-      if (Objects.nonNull(capturedPiece)) {
-         capturedPieces.add(capturedPiece);
-      }
-      fields[move.getSource().getY()][move.getSource().getX()] = null;
-      fields[move.getDestination().getY()][move.getDestination().getX()] = movingPiece;
+      getPiece(move.getDestination()).ifPresent(capturedPieces::add);
+      getPiece(move.getSource()).ifPresent(piece -> piece.setLocation(move.getDestination()));
+
+   }
+
+   @Override
+   public Optional<Piece> getPiece(Field field) {
+
+      return Optional.ofNullable(fields[field.getY()][field.getX()]);
    }
 
    @Override
