@@ -33,6 +33,6 @@ public class Rook extends Piece {
 
    @Override
    public void validate(Move move) throws InvalidMoveException {
-
+      // todo
    }
 }

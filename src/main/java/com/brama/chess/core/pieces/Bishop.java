@@ -33,6 +33,6 @@ public class Bishop extends Piece {
 
    @Override
    public void validate(Move move) throws InvalidMoveException {
-
+      // todo
    }
 }
