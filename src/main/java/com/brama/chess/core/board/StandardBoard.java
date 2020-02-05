@@ -90,10 +90,19 @@ public class StandardBoard extends Board {
     movingPieceIsRightColor(move.getSource(), getTurn());
     movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
     movingPieceIsNotCapturingOpponentsKing(move.getDestination());
-    // validate leaving board exception by handling array index out of bounds exception
-    // check source
-    // check destination
-    // perform piece move validation
+    finishingAMoveWouldLeavePlayerInCheck(move);
+    // finishing a move would leave player in check
+  }
+
+  private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
+    // todo:
+    // perform move
+    // if any opponent's pieces are checking current King, throw exception
+    if (false) {
+      // revert move
+      throw new CheckException();
+    }
+    // revert move
   }
 
   private void movingPieceIsNotCapturingOpponentsKing(Field destination)
