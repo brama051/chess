@@ -118,7 +118,6 @@ public abstract class Board {
    private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
 
       Optional<Piece> capturedPiece = capture(move);
-      //todo: if any opponent's pieces are checking current King, throw exception
       if (atLeastOneOpposingPieceCanCheckPlayingKing()) {
          revert(move, capturedPiece);
          throw new CheckException();
