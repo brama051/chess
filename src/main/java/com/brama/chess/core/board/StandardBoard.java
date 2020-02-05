@@ -1,7 +1,6 @@
 package com.brama.chess.core.board;
 
 import com.brama.chess.core.Move;
-import com.brama.chess.core.fauls.LeavingBoardException;
 import com.brama.chess.core.pieces.Bishop;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Knight;
@@ -14,7 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.brama.chess.core.pieces.PieceColor.*;
+import static com.brama.chess.core.pieces.properties.PieceColor.*;
 
 public class StandardBoard extends Board {
 
@@ -30,29 +29,29 @@ public class StandardBoard extends Board {
       // set black and white pawns
       for (int x = 0; x < 8; x++) {
 
-         fields[1][x] = new Pawn(BLACK, new Field(1, x));
-         fields[6][x] = new Pawn(WHITE, new Field(6, x));
+         fields[1][x] = new Pawn(BLACK, this);
+         fields[6][x] = new Pawn(WHITE, this);
       }
 
       // white line
-      fields[7][0] = new Rook(WHITE, new Field(7, 0));
-      fields[7][1] = new Knight(WHITE, new Field(7, 1));
-      fields[7][2] = new Bishop(WHITE, new Field(7, 2));
-      fields[7][3] = new Queen(WHITE, new Field(7, 3));
-      fields[7][4] = new King(WHITE, new Field(7, 4));
-      fields[7][5] = new Bishop(WHITE, new Field(7, 5));
-      fields[7][6] = new Knight(WHITE, new Field(7, 6));
-      fields[7][7] = new Rook(WHITE, new Field(7, 7));
+      fields[7][0] = new Rook(WHITE, this);
+      fields[7][1] = new Knight(WHITE, this);
+      fields[7][2] = new Bishop(WHITE, this);
+      fields[7][3] = new Queen(WHITE, this);
+      fields[7][4] = new King(WHITE, this);
+      fields[7][5] = new Bishop(WHITE, this);
+      fields[7][6] = new Knight(WHITE, this);
+      fields[7][7] = new Rook(WHITE, this);
 
       // black line
-      fields[0][7] = new Rook(BLACK, new Field(0, 7));
-      fields[0][6] = new Knight(BLACK, new Field(0, 6));
-      fields[0][5] = new Bishop(BLACK, new Field(0, 5));
-      fields[0][4] = new Queen(BLACK, new Field(0, 4));
-      fields[0][3] = new King(BLACK, new Field(0, 3));
-      fields[0][2] = new Bishop(BLACK, new Field(0, 2));
-      fields[0][1] = new Knight(BLACK, new Field(0, 1));
-      fields[0][0] = new Rook(BLACK, new Field(0, 0));
+      fields[0][7] = new Rook(BLACK, this);
+      fields[0][6] = new Knight(BLACK, this);
+      fields[0][5] = new Bishop(BLACK, this);
+      fields[0][4] = new Queen(BLACK, this);
+      fields[0][3] = new King(BLACK, this);
+      fields[0][2] = new Bishop(BLACK, this);
+      fields[0][1] = new Knight(BLACK, this);
+      fields[0][0] = new Rook(BLACK, this);
 
       capturedPieces = new LinkedHashSet<>();
    }
@@ -63,7 +62,7 @@ public class StandardBoard extends Board {
       if (destination.getX() < 0 || destination.getX() > 7
           || destination.getY() < 0 || destination.getY() > 7) {
 
-         throw new LeavingBoardException();
+         return false;
       }
 
       return true;

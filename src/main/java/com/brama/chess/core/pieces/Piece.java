@@ -1,28 +1,40 @@
 package com.brama.chess.core.pieces;
 
+import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
+import com.brama.chess.core.pieces.properties.PieceColor;
+import com.brama.chess.core.pieces.properties.PieceType;
+
+import java.util.Optional;
 
 public abstract class Piece {
 
    private final PieceType type;
    private final PieceColor color;
-   private Field location;
+   private final Board board;
 
-   public Piece(PieceType type, PieceColor color, Field location) {
+   public Piece(PieceType type, PieceColor color, Board board) {
 
       this.type = type;
       this.color = color;
-      this.location = location;
+      this.board = board;
    }
 
-   public Field getLocation() {
+   public Optional<Field> getLocation() {
 
-      return location;
+      return board.getPieceLocation(this);
    }
 
    public void setLocation(Field location) {
 
-      this.location = location;
+      Optional<Field> currentLocation = board.getPieceLocation(this);
+
+      // if piece is on board
+      if (currentLocation.isPresent()) {
+
+         this.board.setAt(null, currentLocation.get());
+         this.board.setAt(this, location);
+      }
    }
 
    abstract boolean canMove(Field destination);

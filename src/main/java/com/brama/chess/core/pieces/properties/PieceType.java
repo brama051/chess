@@ -1,4 +1,4 @@
-package com.brama.chess.core.pieces;
+package com.brama.chess.core.pieces.properties;
 
 public enum PieceType {
 

@@ -33,12 +33,12 @@ public abstract class Board {
 
    public abstract void validate(Move move);
 
-   public Piece getPiece(int y, int x) {
+   public Optional<Piece> getPiece(int y, int x) {
 
-      return fields[y][x];
+      return Optional.ofNullable(fields[y][x]);
    }
 
-   public Optional<Field> getLocation(Piece piece) {
+   public Optional<Field> getPieceLocation(Piece piece) {
 
       for (int y = 0; y < height; y++) {
          for (int x = 0; x < width; x++) {
@@ -54,4 +54,8 @@ public abstract class Board {
       return Optional.empty();
    }
 
+   public void setAt(Piece piece, Field location) {
+
+      fields[location.getY()][location.getX()] = piece;
+   }
 }
