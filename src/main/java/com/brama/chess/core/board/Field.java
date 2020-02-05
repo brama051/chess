@@ -2,22 +2,22 @@ package com.brama.chess.core.board;
 
 public class Field {
 
-   private final int x;
-   private final int y;
+  private final int x;
+  private final int y;
 
-   public Field(int y, int x) {
+  public Field(int y, int x) {
 
-      this.x = x;
-      this.y = y;
-   }
+    this.x = x;
+    this.y = y;
+  }
 
-   public int getX() {
+  public int getX() {
 
-      return x;
-   }
+    return x;
+  }
 
-   public int getY() {
+  public int getY() {
 
-      return y;
-   }
+    return y;
+  }
 }

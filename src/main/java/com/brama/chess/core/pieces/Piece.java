@@ -9,55 +9,55 @@ import java.util.Optional;
 
 public abstract class Piece {
 
-   private final PieceType type;
-   private final PieceColor color;
-   private final Board board;
+  private final PieceType type;
+  private final PieceColor color;
+  private final Board board;
 
-   public Piece(PieceType type, PieceColor color, Board board) {
+  public Piece(PieceType type, PieceColor color, Board board) {
 
-      this.type = type;
-      this.color = color;
-      this.board = board;
-   }
+    this.type = type;
+    this.color = color;
+    this.board = board;
+  }
 
-   public Optional<Field> getLocation() {
+  public Optional<Field> getLocation() {
 
-      return board.getPieceLocation(this);
-   }
+    return board.getPieceLocation(this);
+  }
 
-   public void moveToLocation(Field location) {
+  public void moveToLocation(Field location) {
 
-      Optional<Field> currentLocation = board.getPieceLocation(this);
-      if (currentLocation.isPresent()) {
-         this.board.setAt(null, currentLocation.get());
-         this.board.setAt(this, location);
-      }
-   }
+    Optional<Field> currentLocation = board.getPieceLocation(this);
+    if (currentLocation.isPresent()) {
+      this.board.setAt(null, currentLocation.get());
+      this.board.setAt(this, location);
+    }
+  }
 
-   abstract boolean isCheckingEnemyKing();
+  abstract boolean isCheckingEnemyKing();
 
-   abstract boolean canMove(Field destination);
+  abstract boolean canMove(Field destination);
 
-   abstract void move();
+  abstract void move();
 
-   // King can't be taken
-   boolean canBeCaptured() {
+  // King can't be taken
+  boolean canBeCaptured() {
 
-      return true;
-   }
+    return true;
+  }
 
-   public PieceType getType() {
+  public PieceType getType() {
 
-      return type;
-   }
+    return type;
+  }
 
-   public PieceColor getColor() {
+  public PieceColor getColor() {
 
-      return color;
-   }
+    return color;
+  }
 
-   public boolean isWhite() {
+  public boolean isWhite() {
 
-      return PieceColor.WHITE.equals(color);
-   }
+    return PieceColor.WHITE.equals(color);
+  }
 }

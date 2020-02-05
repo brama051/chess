@@ -2,8 +2,8 @@ package com.brama.chess.core.fauls;
 
 public class WrongPieceException extends InvalidMoveException {
 
-   public WrongPieceException() {
+  public WrongPieceException() {
 
-      super("Player is trying to move opponent's piece");
-   }
+    super("Player is trying to move opponent's piece");
+  }
 }
