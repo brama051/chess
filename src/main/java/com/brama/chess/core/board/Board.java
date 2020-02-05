@@ -6,12 +6,15 @@ import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Board {
 
   final Piece[][] fields;
+  private final Set<Piece> capturedPieces;
   private final int height;
   private final int width;
   private int turn;
@@ -21,6 +24,7 @@ public abstract class Board {
     this.height = height;
     this.width = width;
     this.fields = fields;
+    this.capturedPieces = new LinkedHashSet<>();
   }
 
   public int getHeight() {
@@ -32,10 +36,38 @@ public abstract class Board {
 
     return width;
   }
+  /**
+   * Method performs a move and returns captured piece.
+   * @param move
+   * @return captured Piece
+   */
+  public Optional<Piece> capture(Move move) {
+    Optional<Piece> capturedPiece = getPiece(move.getDestination());
+    getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+    return capturedPiece;
+  }
 
-  public abstract void execute(Move move);
+  /**
+   * Revers what capture does. It moves piece from destination
+   * back to source and puts captured piece to its previous field.
+   * @param move
+   * @param capturedPiece
+   */
+  public void revert(Move move, Optional<Piece> capturedPiece) {
+    getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource()));
+    capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+  }
 
-  public abstract Optional<Piece> getPiece(Field field);
+  public void execute(Move move) {
+
+    capture(move).ifPresent(capturedPieces::add);
+    nextTurn();
+  }
+
+  public Optional<Piece> getPiece(Field field) {
+
+    return Optional.ofNullable(fields[field.getY()][field.getX()]);
+  }
 
   public void validate(Move move) throws InvalidMoveException {
 

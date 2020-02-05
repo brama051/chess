@@ -1,10 +1,7 @@
 package com.brama.chess.core.board;
 
 import com.brama.chess.core.Move;
-import com.brama.chess.core.fauls.*;
 import com.brama.chess.core.pieces.*;
-import com.brama.chess.core.pieces.properties.PieceColor;
-import com.brama.chess.core.pieces.properties.PieceType;
 
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -17,8 +14,6 @@ public class StandardBoard extends Board {
 
   private static final int WIDTH = 8;
   private static final int HEIGHT = 8;
-
-  private Set<Piece> capturedPieces;
 
   public StandardBoard() {
 
@@ -51,22 +46,6 @@ public class StandardBoard extends Board {
     fields[0][1] = new Knight(BLACK, this);
     fields[0][0] = new Rook(BLACK, this);
 
-    capturedPieces = new LinkedHashSet<>();
-  }
-
-  @Override
-  public void execute(Move move) {
-
-    getPiece(move.getDestination()).ifPresent(capturedPieces::add);
-    getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
-
-    nextTurn();
-  }
-
-  @Override
-  public Optional<Piece> getPiece(Field field) {
-
-    return Optional.ofNullable(fields[field.getY()][field.getX()]);
   }
 
 }
