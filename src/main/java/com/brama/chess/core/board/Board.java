@@ -48,7 +48,7 @@ public abstract class Board {
    /**
     * Method performs a move and returns captured piece.
     *
-    * @param move
+    * @param move source/destination pair
     * @return captured Piece
     */
    public Optional<Piece> capture(Move move) {
@@ -62,8 +62,8 @@ public abstract class Board {
     * Revers what capture does. It moves piece from destination back to source and puts captured
     * piece to its previous field.
     *
-    * @param move
-    * @param capturedPiece
+    * @param move source/destination pair
+    * @param capturedPiece to put on a destination after reverse-move is executed
     */
    public void revert(Move move, Optional<Piece> capturedPiece) {
 
@@ -258,5 +258,10 @@ public abstract class Board {
    public void nextTurn() {
 
       turn++;
+   }
+
+   public Set<Piece> getCapturedPieces() {
+
+      return capturedPieces;
    }
 }
