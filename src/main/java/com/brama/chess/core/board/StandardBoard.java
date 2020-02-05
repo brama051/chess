@@ -91,7 +91,16 @@ public class StandardBoard extends Board {
     movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
     movingPieceIsNotCapturingOpponentsKing(move.getDestination());
     finishingAMoveWouldLeavePlayerInCheck(move);
-    // finishing a move would leave player in check
+
+    // perform piece move validation
+    performMovingPieceValidation(move);
+  }
+
+  private void performMovingPieceValidation(Move move) throws InvalidMoveException {
+    Optional<Piece> piece = getPiece(move.getSource());
+    if (piece.isPresent()) {
+      piece.get().validate(move);
+    }
   }
 
   private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
