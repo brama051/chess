@@ -9,27 +9,30 @@ import com.brama.chess.core.pieces.properties.PieceType;
 
 public class Bishop extends Piece {
 
-  public Bishop(PieceColor color, Board board) {
+   public Bishop(PieceColor color, Board board) {
 
-    super(PieceType.BISHOP, color, board);
-  }
+      super(PieceType.BISHOP, color, board);
+   }
 
-  @Override
-  boolean canMove(Field destination) {
+   @Override
+   boolean canMove(Field destination) {
 
-    return false;
-  }
+      return false;
+   }
 
-  @Override
-  void move() {}
+   @Override
+   void move() {
 
-  @Override
-  boolean isCheckingEnemyKing() {
-    return false;
-  }
+   }
 
-  @Override
-  public void validate(Move move) throws InvalidMoveException {
+   @Override
+   boolean isCheckingEnemyKing() {
 
-  }
+      return false;
+   }
+
+   @Override
+   public void validate(Move move) throws InvalidMoveException {
+
+   }
 }

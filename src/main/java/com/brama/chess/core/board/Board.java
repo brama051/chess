@@ -19,177 +19,185 @@ import java.util.Set;
 
 public abstract class Board {
 
-  final Piece[][] fields;
-  private final Set<Piece> capturedPieces;
-  private final int height;
-  private final int width;
-  private int turn;
+   final Piece[][] fields;
+   private final Set<Piece> capturedPieces;
+   private final int height;
+   private final int width;
+   private int turn;
 
-  Board(int height, int width, Piece[][] fields) {
+   Board(int height, int width, Piece[][] fields) {
 
-    this.height = height;
-    this.width = width;
-    this.fields = fields;
-    this.capturedPieces = new LinkedHashSet<>();
-  }
+      this.height = height;
+      this.width = width;
+      this.fields = fields;
+      this.capturedPieces = new LinkedHashSet<>();
+   }
 
-  public int getHeight() {
+   public int getHeight() {
 
-    return height;
-  }
+      return height;
+   }
 
-  public int getWidth() {
+   public int getWidth() {
 
-    return width;
-  }
-  /**
-   * Method performs a move and returns captured piece.
-   * @param move
-   * @return captured Piece
-   */
-  public Optional<Piece> capture(Move move) {
-    Optional<Piece> capturedPiece = getPiece(move.getDestination());
-    getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
-    return capturedPiece;
-  }
+      return width;
+   }
 
-  /**
-   * Revers what capture does. It moves piece from destination
-   * back to source and puts captured piece to its previous field.
-   * @param move
-   * @param capturedPiece
-   */
-  public void revert(Move move, Optional<Piece> capturedPiece) {
-    getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource()));
-    capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination()));
-  }
+   /**
+    * Method performs a move and returns captured piece.
+    *
+    * @param move
+    * @return captured Piece
+    */
+   public Optional<Piece> capture(Move move) {
 
-  public void execute(Move move) {
+      Optional<Piece> capturedPiece = getPiece(move.getDestination());
+      getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+      return capturedPiece;
+   }
 
-    capture(move).ifPresent(capturedPieces::add);
-    nextTurn();
-  }
+   /**
+    * Revers what capture does. It moves piece from destination back to source and puts captured
+    * piece to its previous field.
+    *
+    * @param move
+    * @param capturedPiece
+    */
+   public void revert(Move move, Optional<Piece> capturedPiece) {
 
-  public Optional<Piece> getPiece(Field field) {
+      getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource()));
+      capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+   }
 
-    return Optional.ofNullable(fields[field.getY()][field.getX()]);
-  }
+   public void execute(Move move) {
 
-  public void validate(Move move) throws InvalidMoveException {
+      capture(move).ifPresent(capturedPieces::add);
+      nextTurn();
+   }
 
-    fieldIsOnBoard(move.getSource());
-    fieldIsOnBoard(move.getDestination());
-    moveIsNotInAStill(move);
-    movingPieceExists(move.getSource());
-    movingPieceIsRightColor(move.getSource(), getTurn());
-    movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
-    movingPieceIsNotCapturingOpponentsKing(move.getDestination());
-    finishingAMoveWouldLeavePlayerInCheck(move);
+   public Optional<Piece> getPiece(Field field) {
 
-    performMovingPieceValidation(move);
-  }
+      return Optional.ofNullable(fields[field.getY()][field.getX()]);
+   }
 
-  private void fieldIsOnBoard(Field destination) throws LeavingBoardException {
+   public void validate(Move move) throws InvalidMoveException {
 
-    if (destination.getX() < 0
-        || destination.getX() > getWidth() - 1
-        || destination.getY() < 0
-        || destination.getY() > getHeight() - 1) {
+      fieldIsOnBoard(move.getSource());
+      fieldIsOnBoard(move.getDestination());
+      moveIsNotInAStill(move);
+      movingPieceExists(move.getSource());
+      movingPieceIsRightColor(move.getSource(), getTurn());
+      movingPieceIsNotCapturingWrongColor(getTurn(), move.getDestination());
+      movingPieceIsNotCapturingOpponentsKing(move.getDestination());
+      finishingAMoveWouldLeavePlayerInCheck(move);
 
-      throw new LeavingBoardException();
-    }
-  }
+      performMovingPieceValidation(move);
+   }
 
-  private void performMovingPieceValidation(Move move) throws InvalidMoveException {
-    Optional<Piece> piece = getPiece(move.getSource());
-    if (piece.isPresent()) {
-      piece.get().validate(move);
-    }
-  }
+   private void fieldIsOnBoard(Field destination) throws LeavingBoardException {
 
-  private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
-    // todo:
-    // perform move
-    // if any opponent's pieces are checking current King, throw exception
-    if (false) {
-      // revert move
-      throw new CheckException();
-    }
-    // revert move
-  }
+      if (destination.getX() < 0
+            || destination.getX() > getWidth() - 1
+            || destination.getY() < 0
+            || destination.getY() > getHeight() - 1) {
 
-  private void movingPieceIsNotCapturingOpponentsKing(Field destination)
-      throws CapturingKingException {
-    Optional<Piece> piece = getPiece(destination);
-    if (piece.isPresent() && piece.get().getType().equals(PieceType.KING)) {
-      throw new CapturingKingException();
-    }
-  }
-
-  private void moveIsNotInAStill(Move move) throws StandingStillException {
-    if (move.getSource().equals(move.getDestination())) {
-      throw new StandingStillException();
-    }
-  }
-
-  private void movingPieceIsNotCapturingWrongColor(PieceColor color, Field destination)
-      throws FriendlyFireException {
-
-    Optional<Piece> opponentsPiece = getPiece(destination);
-    if (opponentsPiece.isPresent() && color.equals(opponentsPiece.get().getColor())) {
-      throw new FriendlyFireException();
-    }
-  }
-
-  private void movingPieceIsRightColor(Field source, PieceColor turn) throws WrongPieceException {
-
-    Optional<Piece> piece = getPiece(source);
-    if (piece.isPresent() && !piece.get().getColor().equals(turn)) {
-      throw new WrongPieceException();
-    }
-  }
-
-  private void movingPieceExists(Field field) throws EmptyFieldException {
-
-    Optional<Piece> piece = getPiece(field);
-    if (!piece.isPresent()) {
-      throw new EmptyFieldException();
-    }
-  }
-
-  public Optional<Piece> getPiece(int y, int x) {
-
-    return Optional.ofNullable(fields[y][x]);
-  }
-
-  public Optional<Field> getPieceLocation(Piece piece) {
-
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-
-        Piece tmp = fields[y][x];
-        if (Objects.nonNull(tmp) && tmp.equals(piece)) {
-
-          return Optional.of(new Field(y, x));
-        }
+         throw new LeavingBoardException();
       }
-    }
+   }
 
-    return Optional.empty();
-  }
+   private void performMovingPieceValidation(Move move) throws InvalidMoveException {
 
-  public void setAt(Piece piece, Field location) {
+      Optional<Piece> piece = getPiece(move.getSource());
+      if (piece.isPresent()) {
+         piece.get().validate(move);
+      }
+   }
 
-    fields[location.getY()][location.getX()] = piece;
-  }
+   private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
+      // todo:
+      // perform move
+      // if any opponent's pieces are checking current King, throw exception
+      if (false) {
+         // revert move
+         throw new CheckException();
+      }
+      // revert move
+   }
 
-  public PieceColor getTurn() {
+   private void movingPieceIsNotCapturingOpponentsKing(Field destination)
+         throws CapturingKingException {
 
-    return turn % 2 == 0 ? PieceColor.WHITE : PieceColor.BLACK;
-  }
+      Optional<Piece> piece = getPiece(destination);
+      if (piece.isPresent() && piece.get().getType().equals(PieceType.KING)) {
+         throw new CapturingKingException();
+      }
+   }
 
-  public void nextTurn() {
+   private void moveIsNotInAStill(Move move) throws StandingStillException {
 
-    turn++;
-  }
+      if (move.getSource().equals(move.getDestination())) {
+         throw new StandingStillException();
+      }
+   }
+
+   private void movingPieceIsNotCapturingWrongColor(PieceColor color, Field destination)
+         throws FriendlyFireException {
+
+      Optional<Piece> opponentsPiece = getPiece(destination);
+      if (opponentsPiece.isPresent() && color.equals(opponentsPiece.get().getColor())) {
+         throw new FriendlyFireException();
+      }
+   }
+
+   private void movingPieceIsRightColor(Field source, PieceColor turn) throws WrongPieceException {
+
+      Optional<Piece> piece = getPiece(source);
+      if (piece.isPresent() && !piece.get().getColor().equals(turn)) {
+         throw new WrongPieceException();
+      }
+   }
+
+   private void movingPieceExists(Field field) throws EmptyFieldException {
+
+      Optional<Piece> piece = getPiece(field);
+      if (!piece.isPresent()) {
+         throw new EmptyFieldException();
+      }
+   }
+
+   public Optional<Piece> getPiece(int y, int x) {
+
+      return Optional.ofNullable(fields[y][x]);
+   }
+
+   public Optional<Field> getPieceLocation(Piece piece) {
+
+      for (int y = 0; y < height; y++) {
+         for (int x = 0; x < width; x++) {
+
+            Piece tmp = fields[y][x];
+            if (Objects.nonNull(tmp) && tmp.equals(piece)) {
+
+               return Optional.of(new Field(y, x));
+            }
+         }
+      }
+
+      return Optional.empty();
+   }
+
+   public void setAt(Piece piece, Field location) {
+
+      fields[location.getY()][location.getX()] = piece;
+   }
+
+   public PieceColor getTurn() {
+
+      return turn % 2 == 0 ? PieceColor.WHITE : PieceColor.BLACK;
+   }
+
+   public void nextTurn() {
+
+      turn++;
+   }
 }

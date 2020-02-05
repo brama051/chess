@@ -9,27 +9,30 @@ import com.brama.chess.core.pieces.properties.PieceType;
 
 public class Knight extends Piece {
 
-  public Knight(PieceColor color, Board board) {
+   public Knight(PieceColor color, Board board) {
 
-    super(PieceType.KNIGHT, color, board);
-  }
+      super(PieceType.KNIGHT, color, board);
+   }
 
-  @Override
-  boolean canMove(Field destination) {
+   @Override
+   boolean canMove(Field destination) {
 
-    return false;
-  }
+      return false;
+   }
 
-  @Override
-  void move() {}
+   @Override
+   void move() {
 
-  @Override
-  boolean isCheckingEnemyKing() {
-    return false;
-  }
+   }
 
-  @Override
-  public void validate(Move move) throws InvalidMoveException {
+   @Override
+   boolean isCheckingEnemyKing() {
 
-  }
+      return false;
+   }
+
+   @Override
+   public void validate(Move move) throws InvalidMoveException {
+
+   }
 }

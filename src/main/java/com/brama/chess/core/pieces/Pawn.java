@@ -9,27 +9,30 @@ import com.brama.chess.core.pieces.properties.PieceType;
 
 public class Pawn extends Piece {
 
-  public Pawn(PieceColor color, Board board) {
+   public Pawn(PieceColor color, Board board) {
 
-    super(PieceType.PAWN, color, board);
-  }
+      super(PieceType.PAWN, color, board);
+   }
 
-  @Override
-  public boolean canMove(Field destination) {
+   @Override
+   public boolean canMove(Field destination) {
 
-    return false;
-  }
+      return false;
+   }
 
-  @Override
-  public void move() {}
+   @Override
+   public void move() {
 
-  @Override
-  boolean isCheckingEnemyKing() {
-    return false;
-  }
+   }
 
-  @Override
-  public void validate(Move move) throws InvalidMoveException {
+   @Override
+   boolean isCheckingEnemyKing() {
 
-  }
+      return false;
+   }
+
+   @Override
+   public void validate(Move move) throws InvalidMoveException {
+
+   }
 }
