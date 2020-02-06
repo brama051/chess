@@ -1,8 +1,5 @@
 package com.brama.chess.core.board;
 
-import static com.brama.chess.core.pieces.properties.PieceColor.BLACK;
-import static com.brama.chess.core.pieces.properties.PieceColor.WHITE;
-
 import com.brama.chess.core.pieces.Bishop;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Knight;
@@ -10,6 +7,8 @@ import com.brama.chess.core.pieces.Pawn;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.Queen;
 import com.brama.chess.core.pieces.Rook;
+
+import static com.brama.chess.core.pieces.properties.PieceColor.*;
 
 public class StandardBoard extends Board {
 

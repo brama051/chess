@@ -2,6 +2,7 @@ package com.brama.chess.core.renderer;
 
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.pieces.Piece;
+
 import java.util.Optional;
 
 public class TextualRenderer implements BoardRenderer {

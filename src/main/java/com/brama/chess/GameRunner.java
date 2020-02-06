@@ -4,6 +4,7 @@ import com.brama.chess.core.board.StandardBoard;
 import com.brama.chess.core.renderer.TextualRenderer;
 import com.whitehatgaming.UserInput;
 import com.whitehatgaming.UserInputFile;
+
 import java.io.IOException;
 
 public class GameRunner {

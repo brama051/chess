@@ -69,4 +69,14 @@ public abstract class Piece {
    }
 
    public abstract void validate(Move move) throws InvalidMoveException;
+
+   public Board getBoard() {
+
+      return board;
+   }
+
+   public int getMoveCounter() {
+
+      return moveCounter;
+   }
 }
