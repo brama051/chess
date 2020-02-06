@@ -1,16 +1,23 @@
 package com.brama.chess.core;
 
+import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
+import com.brama.chess.core.fauls.CapturingKingException;
+import com.brama.chess.core.fauls.CheckException;
 import com.brama.chess.core.fauls.EmptyFieldException;
 import com.brama.chess.core.fauls.FriendlyFireException;
 import com.brama.chess.core.fauls.LeavingBoardException;
 import com.brama.chess.core.fauls.StandingStillException;
 import com.brama.chess.core.fauls.WrongPieceException;
+import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 
+import com.brama.chess.core.pieces.properties.PieceType;
 import java.util.Optional;
+import java.util.Set;
 
+// todo:implement in StandardMoveValidator which extends abstract MoveValidator
 public class MoveValidator {
 
    public static boolean fieldIsOnBoard(Field destination, int width, int height) {
@@ -78,5 +85,47 @@ public class MoveValidator {
       }
    }
 
+   public static void validateThatMovingPieceIsNotCapturingOpponentsKing(Optional<Piece> piece)
+         throws CapturingKingException {
+
+      if (movingPieceIsCapturingOpponentsKing(piece)) {
+         throw new CapturingKingException();
+      }
+   }
+
+   private static boolean movingPieceIsCapturingOpponentsKing(Optional<Piece> piece) {
+
+      return piece.isPresent() && piece.get().getType().equals(PieceType.KING);
+   }
+
+   public static boolean atLeastOneOpposingPieceCanCheckPlayingKing(Set<Piece> opposingPieces,
+         King playingKing) {
+
+      for (Piece opposingPiece : opposingPieces) {
+         Move attackMove = new Move(
+               opposingPiece.getLocation().orElseThrow(RuntimeException::new),
+               playingKing.getLocation().orElseThrow(RuntimeException::new)
+         );
+
+         if (opposingPiece.isValidMove(attackMove)) {
+            return true;
+         }
+
+      }
+      return false;
+   }
+
+   public static void finishingAMoveWouldLeavePlayerInCheck(Move move,
+         Board board, Set<Piece> allPieces, King king) throws CheckException {
+
+      Optional<Piece> capturedPiece = board.capture(move, false);
+
+      // todo: this can be generic check inserted as lambda function
+      if (atLeastOneOpposingPieceCanCheckPlayingKing(allPieces, king)) {
+         board.revert(move, capturedPiece, false);
+         throw new CheckException();
+      }
+      board.revert(move, capturedPiece, false);
+   }
 
 }

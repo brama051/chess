@@ -7,7 +7,6 @@ import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -44,7 +43,6 @@ public class Pawn extends Piece {
       validMoves.addAll(getValidAttackMoves());
       validMoves.addAll(getValidAdvanceMoves());
 
-
       if (!validMoves.contains(move)) {
          throw new InvalidMoveException();
       }
@@ -65,14 +63,20 @@ public class Pawn extends Piece {
       Set<Move> attackMoves = new HashSet<>();
 
       Optional<Move> forwardLeftAttack = new MoveBuilder(this).forwardLeft().build();
-      if (forwardLeftAttack.isPresent() && opponentIsOnAttackingField(forwardLeftAttack.get().getDestination())) {
+      if (forwardLeftAttack.isPresent() && pieceIsOfColor(
+            getBoard().getPiece(forwardLeftAttack.get().getDestination()),
+            getBoard().getWaitingColor())) {
 
       }
 
       Optional<Move> forwardRightAttack = new MoveBuilder(this).forwardRight().build();
 
-
       return attackMoves;
+   }
+
+   private boolean pieceIsOfColor(Optional<Piece> piece, PieceColor targetedColor) {
+
+      return piece.isPresent() && piece.get().getColor().equals(targetedColor);
    }
 
 

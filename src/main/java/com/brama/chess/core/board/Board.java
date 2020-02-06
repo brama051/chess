@@ -1,21 +1,24 @@
 package com.brama.chess.core.board;
 
+import static com.brama.chess.core.MoveValidator.finishingAMoveWouldLeavePlayerInCheck;
+import static com.brama.chess.core.MoveValidator.validateThatFieldIsOnBoard;
+import static com.brama.chess.core.MoveValidator.validateThatMoveIsNotInAStill;
+import static com.brama.chess.core.MoveValidator.validateThatMovingPieceExists;
+import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsNotCapturingOpponentsKing;
+import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsNotCapturingPlayingColor;
+import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsPlayingColor;
+
 import com.brama.chess.core.Move;
-import com.brama.chess.core.fauls.CapturingKingException;
-import com.brama.chess.core.fauls.CheckException;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
-
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
-import static com.brama.chess.core.MoveValidator.*;
 
 public abstract class Board {
 
@@ -47,13 +50,14 @@ public abstract class Board {
     * Method performs a move and returns captured piece.
     *
     * @param move            source/destination pair
-    * @param isCountableMove
+    * @param isCountableMove set to fail if move is executed for validation purposes
     * @return captured Piece
     */
    public Optional<Piece> capture(Move move, boolean isCountableMove) {
 
       Optional<Piece> capturedPiece = getPiece(move.getDestination());
-      getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
+      getPiece(move.getSource())
+            .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
       return capturedPiece;
    }
 
@@ -63,12 +67,14 @@ public abstract class Board {
     *
     * @param move            source/destination pair
     * @param capturedPiece   to put on a destination after reverse-move is executed
-    * @param isCountableMove
+    * @param isCountableMove set to fail if move is executed for validation purposes
     */
    public void revert(Move move, Optional<Piece> capturedPiece, boolean isCountableMove) {
 
-      getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource(), isCountableMove));
-      capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
+      getPiece(move.getDestination())
+            .ifPresent(piece -> piece.moveToLocation(move.getSource(), isCountableMove));
+      capturedPiece
+            .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
    }
 
    public void execute(Move move) {
@@ -89,10 +95,12 @@ public abstract class Board {
       validateThatMoveIsNotInAStill(move);
       validateThatMovingPieceExists(getPiece(move.getSource()));
       validateThatMovingPieceIsPlayingColor(getPiece(move.getSource()), getPlayingColor());
-      validateThatMovingPieceIsNotCapturingPlayingColor(getPlayingColor(), getPiece(move.getDestination()));
+      validateThatMovingPieceIsNotCapturingPlayingColor(getPlayingColor(),
+            getPiece(move.getDestination()));
+      validateThatMovingPieceIsNotCapturingOpponentsKing(getPiece(move.getDestination()));
 
-      movingPieceIsNotCapturingOpponentsKing(move.getDestination());
-      finishingAMoveWouldLeavePlayerInCheck(move);
+      finishingAMoveWouldLeavePlayerInCheck(move, this, getAllPieces(getWaitingColor()),
+            getKing(getPlayingColor()));
 
       performMovingPieceValidation(move);
    }
@@ -104,37 +112,6 @@ public abstract class Board {
       if (piece.isPresent()) {
          piece.get().validate(move);
       }
-   }
-
-   private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
-
-      Optional<Piece> capturedPiece = capture(move, false);
-      if (atLeastOneOpposingPieceCanCheckPlayingKing()) {
-         revert(move, capturedPiece, false);
-         throw new CheckException();
-      }
-      revert(move, capturedPiece, false);
-   }
-
-   private boolean atLeastOneOpposingPieceCanCheckPlayingKing() {
-
-      Set<Piece> opposingPieces = getAllPieces(getWaitingColor());
-      King playingKing = getKing(getPlayingColor());
-      for (Piece opposingPiece : opposingPieces) {
-         Move attackMove = new Move(
-            opposingPiece.getLocation().orElseThrow(RuntimeException::new),
-            playingKing.getLocation().orElseThrow(RuntimeException::new)
-         );
-         try {
-            opposingPiece.validate(attackMove);
-            return true;
-         }
-         catch (InvalidMoveException e) {
-            // continue
-         }
-
-      }
-      return false;
    }
 
    private Set<Piece> getAllPieces(PieceColor color) {
@@ -160,23 +137,14 @@ public abstract class Board {
 
             Piece tmp = fields[y][x];
             if (Objects.nonNull(tmp)
-                && tmp.getColor().equals(color)
-                && tmp.getType().equals(PieceType.KING)) {
+                  && tmp.getColor().equals(color)
+                  && tmp.getType().equals(PieceType.KING)) {
 
-               return (King)tmp;
+               return (King) tmp;
             }
          }
       }
       throw new RuntimeException("There should always be king on the board");
-   }
-
-   private void movingPieceIsNotCapturingOpponentsKing(Field destination)
-         throws CapturingKingException {
-
-      Optional<Piece> piece = getPiece(destination);
-      if (piece.isPresent() && piece.get().getType().equals(PieceType.KING)) {
-         throw new CapturingKingException();
-      }
    }
 
    public Optional<Piece> getPiece(int y, int x) {

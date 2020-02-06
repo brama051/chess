@@ -6,7 +6,6 @@ import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
-
 import java.util.Optional;
 
 public abstract class Piece {
@@ -66,6 +65,16 @@ public abstract class Piece {
    public boolean isWhite() {
 
       return PieceColor.WHITE.equals(color);
+   }
+
+   public boolean isValidMove(Move move) {
+
+      try {
+         validate(move);
+      } catch (InvalidMoveException e) {
+         return false;
+      }
+      return true;
    }
 
    public abstract void validate(Move move) throws InvalidMoveException;
