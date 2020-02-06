@@ -49,31 +49,32 @@ public abstract class Board {
     * Method performs a move and returns captured piece.
     *
     * @param move source/destination pair
+    * @param isCountableMove
     * @return captured Piece
     */
-   public Optional<Piece> capture(Move move) {
+   public Optional<Piece> capture(Move move, boolean isCountableMove) {
 
       Optional<Piece> capturedPiece = getPiece(move.getDestination());
-      getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+      getPiece(move.getSource()).ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
       return capturedPiece;
    }
 
    /**
     * Revers what capture does. It moves piece from destination back to source and puts captured
     * piece to its previous field.
-    *
-    * @param move source/destination pair
+    *  @param move source/destination pair
     * @param capturedPiece to put on a destination after reverse-move is executed
+    * @param isCountableMove
     */
-   public void revert(Move move, Optional<Piece> capturedPiece) {
+   public void revert(Move move, Optional<Piece> capturedPiece, boolean isCountableMove) {
 
-      getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource()));
-      capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination()));
+      getPiece(move.getDestination()).ifPresent(piece -> piece.moveToLocation(move.getSource(), isCountableMove));
+      capturedPiece.ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
    }
 
    public void execute(Move move) {
 
-      capture(move).ifPresent(capturedPieces::add);
+      capture(move, true).ifPresent(capturedPieces::add);
       nextTurn();
    }
 
@@ -117,12 +118,12 @@ public abstract class Board {
 
    private void finishingAMoveWouldLeavePlayerInCheck(Move move) throws CheckException {
 
-      Optional<Piece> capturedPiece = capture(move);
+      Optional<Piece> capturedPiece = capture(move, false);
       if (atLeastOneOpposingPieceCanCheckPlayingKing()) {
-         revert(move, capturedPiece);
+         revert(move, capturedPiece, false);
          throw new CheckException();
       }
-      revert(move, capturedPiece);
+      revert(move, capturedPiece, false);
    }
 
    private boolean atLeastOneOpposingPieceCanCheckPlayingKing() {

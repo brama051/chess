@@ -6,6 +6,7 @@ import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
+
 import java.util.Optional;
 
 public abstract class Piece {
@@ -13,6 +14,7 @@ public abstract class Piece {
    private final PieceType type;
    private final PieceColor color;
    private final Board board;
+   private int moveCounter;
 
    public Piece(PieceType type, PieceColor color, Board board) {
 
@@ -26,12 +28,16 @@ public abstract class Piece {
       return board.getPieceLocation(this);
    }
 
-   public void moveToLocation(Field location) {
+   public void moveToLocation(Field location, boolean isCountableMove) {
 
       Optional<Field> currentLocation = board.getPieceLocation(this);
       if (currentLocation.isPresent()) {
          this.board.setAt(null, currentLocation.get());
          this.board.setAt(this, location);
+
+         if (isCountableMove) {
+            moveCounter++;
+         }
       }
    }
 
