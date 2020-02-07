@@ -33,7 +33,7 @@ public class Game {
       boardRenderer.renderBoard(board);
    }
 
-   public void renderStatus() {
+   public void renderTurn() {
 
       boardRenderer.renderStatus(board);
    }

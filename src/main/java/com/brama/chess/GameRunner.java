@@ -23,13 +23,14 @@ public class GameRunner {
 
       System.out.println("Running the game...");
 
-      game.renderStatus();
       game.renderBoard();
+      game.renderTurn();
       for (int[] move = userInput.nextMove(); move != null; move = userInput.nextMove()) {
 
          game.move(move);
-         game.renderBoard();
          game.renderLastMove();
+         game.renderTurn();
+         game.renderBoard();
       }
    }
 }
