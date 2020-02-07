@@ -31,9 +31,6 @@ public class Move {
       return destination;
    }
 
-   //public Optional<Move> validate(Function<>)
-
-
    @Override
    public boolean equals(Object o) {
 
@@ -52,5 +49,11 @@ public class Move {
    public int hashCode() {
 
       return Objects.hash(source, destination);
+   }
+
+   @Override
+   public String toString() {
+
+      return String.format("%c%c%c%c", source.getX() + 97, 56 - source.getY(), destination.getX() + 97, 56 - destination.getY());
    }
 }
