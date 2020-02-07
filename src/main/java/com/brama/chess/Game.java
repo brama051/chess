@@ -10,7 +10,7 @@ public class Game {
    private final Board board;
    private final BoardRenderer boardRenderer;
 
-   public Game(BoardRenderer boardRenderer, Board board) {
+   Game(BoardRenderer boardRenderer, Board board) {
 
       this.board = board;
       this.boardRenderer = boardRenderer;
@@ -28,19 +28,20 @@ public class Game {
       }
    }
 
-   public void renderBoard() {
+   void renderBoard() {
 
       boardRenderer.renderBoard(board);
    }
 
-   public void renderTurn() {
+   void renderTurn() {
 
       boardRenderer.renderStatus(board);
    }
 
-   public void renderLastMove() {
+   void renderMove(int[] moveCoordinates) {
 
-      boardRenderer.renderLastMove(board);
+      Move move = new Move(moveCoordinates);
+      boardRenderer.renderLastMove(move);
    }
 
 

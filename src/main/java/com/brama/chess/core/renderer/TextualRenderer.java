@@ -1,5 +1,6 @@
 package com.brama.chess.core.renderer;
 
+import com.brama.chess.core.Move;
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.pieces.Piece;
 
@@ -43,8 +44,8 @@ public class TextualRenderer implements BoardRenderer {
    }
 
    @Override
-   public void renderLastMove(Board board) {
+   public void renderLastMove(Move move) {
 
-      System.out.println(String.format("Move: %s", board.getLastMove()));
+      System.out.println(String.format("Move: %s", move));
    }
 }

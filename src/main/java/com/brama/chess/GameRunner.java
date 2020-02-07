@@ -24,12 +24,10 @@ public class GameRunner {
       System.out.println("Running the game...");
 
       game.renderBoard();
-      game.renderTurn();
       for (int[] move = userInput.nextMove(); move != null; move = userInput.nextMove()) {
-
-         game.move(move);
-         game.renderLastMove();
          game.renderTurn();
+         game.renderMove(move);
+         game.move(move);
          game.renderBoard();
       }
    }

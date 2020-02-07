@@ -1,5 +1,6 @@
 package com.brama.chess.core.renderer;
 
+import com.brama.chess.core.Move;
 import com.brama.chess.core.board.Board;
 
 public interface BoardRenderer {
@@ -8,5 +9,5 @@ public interface BoardRenderer {
 
    void renderStatus(Board board);
 
-   void renderLastMove(Board board);
+   void renderLastMove(Move board);
 }
