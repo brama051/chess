@@ -1,6 +1,6 @@
 package com.brama.chess.core.board;
 
-import com.brama.chess.core.Move;
+import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.brama.chess.core.MoveValidator.*;
+import static com.brama.chess.core.moves.MoveValidator.*;
 
 public abstract class Board {
 

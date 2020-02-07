@@ -1,4 +1,4 @@
-package com.brama.chess.core;
+package com.brama.chess.core.moves;
 
 import com.brama.chess.core.board.Field;
 

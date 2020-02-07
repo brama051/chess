@@ -1,6 +1,6 @@
 package com.brama.chess;
 
-import com.brama.chess.core.Move;
+import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.renderer.BoardRenderer;
