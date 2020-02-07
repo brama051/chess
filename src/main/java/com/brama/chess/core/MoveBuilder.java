@@ -34,7 +34,7 @@ public class MoveBuilder {
 
    private static int getOrientation(PieceColor pieceColor) {
 
-      return PieceColor.WHITE.equals(pieceColor) ? -1 : 1;
+      return PieceColor.WHITE.equals(pieceColor) ? 1 : -1;
    }
 
    public MoveBuilder forward(int distance) {
