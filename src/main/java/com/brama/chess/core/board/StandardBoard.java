@@ -1,14 +1,9 @@
 package com.brama.chess.core.board;
 
-import com.brama.chess.core.pieces.Bishop;
-import com.brama.chess.core.pieces.King;
-import com.brama.chess.core.pieces.Knight;
-import com.brama.chess.core.pieces.Pawn;
-import com.brama.chess.core.pieces.Piece;
-import com.brama.chess.core.pieces.Queen;
-import com.brama.chess.core.pieces.Rook;
+import com.brama.chess.core.pieces.*;
 
-import static com.brama.chess.core.pieces.properties.PieceColor.*;
+import static com.brama.chess.core.pieces.properties.PieceColor.BLACK;
+import static com.brama.chess.core.pieces.properties.PieceColor.WHITE;
 
 public class StandardBoard extends Board {
 
@@ -40,8 +35,8 @@ public class StandardBoard extends Board {
       fields[0][7] = new Rook(BLACK, this);
       fields[0][6] = new Knight(BLACK, this);
       fields[0][5] = new Bishop(BLACK, this);
-      fields[0][4] = new Queen(BLACK, this);
-      fields[0][3] = new King(BLACK, this);
+      fields[0][4] = new King(BLACK, this);
+      fields[0][3] = new Queen(BLACK, this);
       fields[0][2] = new Bishop(BLACK, this);
       fields[0][1] = new Knight(BLACK, this);
       fields[0][0] = new Rook(BLACK, this);

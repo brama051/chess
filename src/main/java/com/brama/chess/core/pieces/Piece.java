@@ -1,9 +1,9 @@
 package com.brama.chess.core.pieces;
 
-import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
+import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 

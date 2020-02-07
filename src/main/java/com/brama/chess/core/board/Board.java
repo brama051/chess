@@ -1,17 +1,13 @@
 package com.brama.chess.core.board;
 
-import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.fauls.InvalidMoveException;
+import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.brama.chess.core.moves.MoveValidator.*;
 

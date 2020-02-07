@@ -1,7 +1,7 @@
 package com.brama.chess.core.renderer;
 
-import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.board.Board;
+import com.brama.chess.core.moves.Move;
 
 public interface BoardRenderer {
 

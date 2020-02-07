@@ -1,7 +1,7 @@
 package com.brama.chess.core.pieces;
 
-import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.board.Board;
+import com.brama.chess.core.moves.Move;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.brama.chess.core.moves.MoveBuilder.*;
+import static com.brama.chess.core.moves.MoveBuilder.moveFor;
 
 public abstract class LineMovingPiece extends Piece {
 

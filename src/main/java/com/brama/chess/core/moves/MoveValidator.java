@@ -2,13 +2,7 @@ package com.brama.chess.core.moves;
 
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
-import com.brama.chess.core.fauls.CapturingKingException;
-import com.brama.chess.core.fauls.CheckException;
-import com.brama.chess.core.fauls.EmptyFieldException;
-import com.brama.chess.core.fauls.FriendlyFireException;
-import com.brama.chess.core.fauls.LeavingBoardException;
-import com.brama.chess.core.fauls.StandingStillException;
-import com.brama.chess.core.fauls.WrongPieceException;
+import com.brama.chess.core.fauls.*;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
