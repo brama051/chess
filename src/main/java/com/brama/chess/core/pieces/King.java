@@ -47,7 +47,8 @@ public class King extends Piece {
 
       if (!validMoves.contains(move)) {
          throw new InvalidMoveException();
-      }   }
+      }
+   }
 
    private Set<Move> getValidMoves() {
 
