@@ -22,6 +22,7 @@ public abstract class Board {
    private final int height;
    private final int width;
    private int turn;
+   private Move lastMove;
 
    Board(int height, int width, Piece[][] fields) {
 
@@ -75,7 +76,13 @@ public abstract class Board {
    public void execute(Move move) {
 
       capture(move, true).ifPresent(capturedPieces::add);
+      saveLastMove(move);
       nextTurn();
+   }
+
+   private void saveLastMove(Move move) {
+
+      lastMove = move;
    }
 
    public Optional<Piece> getPiece(Field field) {
@@ -207,5 +214,10 @@ public abstract class Board {
              && attackedPiece.get().getColor().equals(waitingColor)
              && attackedPiece.get().getType().equals(PieceType.KING);
 
+   }
+
+   public Move getLastMove() {
+
+      return lastMove;
    }
 }

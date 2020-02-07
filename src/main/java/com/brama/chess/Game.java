@@ -22,13 +22,26 @@ public class Game {
       try {
          board.validate(move);
          board.execute(move);
-      } catch (InvalidMoveException e) {
-         e.printStackTrace();
+      }
+      catch (InvalidMoveException e) {
+         System.out.println(e.getMessage());
       }
    }
 
-   public void render() {
+   public void renderBoard() {
 
-      boardRenderer.render(board);
+      boardRenderer.renderBoard(board);
    }
+
+   public void renderStatus() {
+
+      boardRenderer.renderStatus(board);
+   }
+
+   public void renderLastMove() {
+
+      boardRenderer.renderLastMove(board);
+   }
+
+
 }

@@ -8,29 +8,43 @@ import java.util.Optional;
 public class TextualRenderer implements BoardRenderer {
 
    @Override
-   public void render(Board board) {
+   public void renderBoard(Board board) {
 
       System.out.println();
-      System.out.print(" ");
+      System.out.print("    ");
       for (int x = 0; x < board.getHeight(); x++) {
-         System.out.print((char) (x + 97));
+         System.out.print(String.format(" %c ", (char)(x + 97)));
       }
       System.out.println();
 
       for (int y = 0; y < board.getHeight(); y++) {
-         System.out.print((char) (56 - y));
+         System.out.print(String.format(" %c |",(char)(56 - y)));
          for (int x = 0; x < board.getWidth(); x++) {
             Optional<Piece> piece = board.getPiece(y, x);
             if (piece.isPresent()) {
-               System.out.print(
-                     piece.get().isWhite()
-                           ? piece.get().getType().getAcronym()
-                           : Character.toLowerCase(piece.get().getType().getAcronym()));
-            } else {
-               System.out.print(" ");
+               System.out.print(String.format("_%c|",
+                                              piece.get().isWhite()
+                                              ? piece.get().getType().getAcronym()
+                                              : Character.toLowerCase(piece.get().getType().getAcronym())));
+            }
+            else {
+               System.out.print("__|");
             }
          }
          System.out.println();
       }
+   }
+
+   @Override
+   public void renderStatus(Board board) {
+
+      System.out.println();
+      System.out.println(String.format("Turn: %s", board.getPlayingColor()));
+   }
+
+   @Override
+   public void renderLastMove(Board board) {
+
+      System.out.println(String.format("Move: %s", board.getLastMove()));
    }
 }

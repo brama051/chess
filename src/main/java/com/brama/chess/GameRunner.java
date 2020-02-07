@@ -22,9 +22,14 @@ public class GameRunner {
       Game game = new Game(new TextualRenderer(), new StandardBoard());
 
       System.out.println("Running the game...");
+
+      game.renderStatus();
+      game.renderBoard();
       for (int[] move = userInput.nextMove(); move != null; move = userInput.nextMove()) {
+
          game.move(move);
-         game.render();
+         game.renderBoard();
+         game.renderLastMove();
       }
    }
 }

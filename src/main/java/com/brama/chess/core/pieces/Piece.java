@@ -71,7 +71,7 @@ public abstract class Piece {
    public void validate(Move move) throws InvalidMoveException {
 
       if (!getValidMoves().contains(move)) {
-         throw new InvalidMoveException();
+         throw new InvalidMoveException("Invalid move");
       }
    }
 
