@@ -9,5 +9,5 @@ public interface BoardRenderer {
 
    void renderStatus(Board board);
 
-   void renderLastMove(Move board);
+   void renderLastMove(Move move);
 }
