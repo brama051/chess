@@ -36,7 +36,7 @@ public class Pawn extends Piece {
          moveFor(this).forward(2).build().ifPresent(advanceMoves::add);
       }
       moveFor(this).forward().build().ifPresent(advanceMoves::add);
-      return advanceMoves.stream().filter(this::destinationIsFree).collect(Collectors.toSet());
+      return advanceMoves.stream().filter(getBoard()::destinationIsFree).collect(Collectors.toSet());
    }
 
    public Set<Move> getValidAttackMoves() {
@@ -45,6 +45,9 @@ public class Pawn extends Piece {
       moveFor(this).forwardLeft().build().ifPresent(attackMoves::add);
       moveFor(this).forwardRight().build().ifPresent(attackMoves::add);
 
-      return attackMoves.stream().filter(this::destinationIsOccupiedByOpponent).collect(Collectors.toSet());
+      return attackMoves.stream()
+                        .filter(getBoard()::destinationIsOccupiedByOpponent)
+                        .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
+                        .collect(Collectors.toSet());
    }
 }

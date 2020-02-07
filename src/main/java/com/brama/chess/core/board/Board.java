@@ -52,7 +52,7 @@ public abstract class Board {
 
       Optional<Piece> capturedPiece = getPiece(move.getDestination());
       getPiece(move.getSource())
-            .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
+         .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
       return capturedPiece;
    }
 
@@ -67,9 +67,9 @@ public abstract class Board {
    public void revert(Move move, Optional<Piece> capturedPiece, boolean isCountableMove) {
 
       getPiece(move.getDestination())
-            .ifPresent(piece -> piece.moveToLocation(move.getSource(), isCountableMove));
+         .ifPresent(piece -> piece.moveToLocation(move.getSource(), isCountableMove));
       capturedPiece
-            .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
+         .ifPresent(piece -> piece.moveToLocation(move.getDestination(), isCountableMove));
    }
 
    public void execute(Move move) {
@@ -91,11 +91,11 @@ public abstract class Board {
       validateThatMovingPieceExists(getPiece(move.getSource()));
       validateThatMovingPieceIsPlayingColor(getPiece(move.getSource()), getPlayingColor());
       validateThatMovingPieceIsNotCapturingPlayingColor(getPlayingColor(),
-            getPiece(move.getDestination()));
+                                                        getPiece(move.getDestination()));
       validateThatMovingPieceIsNotCapturingOpponentsKing(getPiece(move.getDestination()));
 
-      finishingAMoveWouldLeavePlayerInCheck(move, this, getAllPieces(getWaitingColor()),
-            getKing(getPlayingColor()));
+      /*finishingAMoveWouldLeavePlayerInCheck(move, this, getAllPieces(getWaitingColor()),
+                                            getKing(getPlayingColor()));*/
 
       performMovingPieceValidation(move);
    }
@@ -132,10 +132,10 @@ public abstract class Board {
 
             Piece tmp = fields[y][x];
             if (Objects.nonNull(tmp)
-                  && tmp.getColor().equals(color)
-                  && tmp.getType().equals(PieceType.KING)) {
+                && tmp.getColor().equals(color)
+                && tmp.getType().equals(PieceType.KING)) {
 
-               return (King) tmp;
+               return (King)tmp;
             }
          }
       }
@@ -186,5 +186,31 @@ public abstract class Board {
    public Set<Piece> getCapturedPieces() {
 
       return capturedPieces;
+   }
+
+   public boolean destinationIsFree(Move move) {
+
+      return !getPiece(move.getDestination()).isPresent();
+   }
+
+   public boolean destinationIsOccupiedByOpponent(Move move) {
+
+      Optional<Piece> piece = getPiece(move.getDestination());
+      return piece.isPresent() && piece.get().getColor().equals(getWaitingColor());
+   }
+
+   public boolean destinationIsOccupied(Move move) {
+
+      return getPiece(move.getDestination()).isPresent();
+   }
+
+   public boolean destinationIsOccupiedByEnemyKing(Move move) {
+
+      PieceColor waitingColor = getWaitingColor();
+      Optional<Piece> attackedPiece = getPiece(move.getDestination());
+      return attackedPiece.isPresent()
+             && attackedPiece.get().getColor().equals(waitingColor)
+             && attackedPiece.get().getType().equals(PieceType.KING);
+
    }
 }

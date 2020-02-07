@@ -32,7 +32,7 @@ public class King extends Piece {
       moveFor(this).backwardRight().build().ifPresent(moves::add);
 
       return moves.stream()
-                  .filter(move -> destinationIsFree(move) || destinationIsOccupiedByOpponent(move))
+                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
                   .collect(Collectors.toSet());
    }
 

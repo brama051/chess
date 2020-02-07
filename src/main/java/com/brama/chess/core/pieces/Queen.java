@@ -5,9 +5,11 @@ import com.brama.chess.core.board.Board;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Queen extends Piece {
+public class Queen extends LineMovingPiece {
 
    public Queen(PieceColor color, Board board) {
 
@@ -17,6 +19,13 @@ public class Queen extends Piece {
    @Override
    Set<Move> getValidMoves() {
 
-      return null;
+      Set<Move> moves = new HashSet<>();
+      moves.addAll(getStraightMoves());
+      moves.addAll(getDiagonalMoves());
+
+      return moves.stream()
+                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
+                  .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
+                  .collect(Collectors.toSet());
    }
 }

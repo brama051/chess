@@ -6,8 +6,9 @@ import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Rook extends Piece {
+public class Rook extends LineMovingPiece {
 
    public Rook(PieceColor color, Board board) {
 
@@ -17,6 +18,10 @@ public class Rook extends Piece {
    @Override
    Set<Move> getValidMoves() {
 
-      return null;
+      return getStraightMoves().stream()
+                               .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
+                               .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
+                               .collect(Collectors.toSet());
    }
+
 }

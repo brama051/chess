@@ -85,17 +85,7 @@ public abstract class Piece {
       return moveCounter;
    }
 
-   public boolean destinationIsFree(Move move) {
 
-      return !getBoard().getPiece(move.getDestination()).isPresent();
-   }
-
-   public boolean destinationIsOccupiedByOpponent(Move move) {
-
-      Board board = getBoard();
-      Optional<Piece> piece = board.getPiece(move.getDestination());
-      return piece.isPresent() && piece.get().getColor().equals(board.getWaitingColor());
-   }
 
    abstract Set<Move> getValidMoves();
 }
