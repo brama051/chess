@@ -2,10 +2,10 @@ package com.brama.chess.core.pieces;
 
 import com.brama.chess.core.Move;
 import com.brama.chess.core.board.Board;
-import com.brama.chess.core.board.Field;
-import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
+
+import java.util.Set;
 
 public class Queen extends Piece {
 
@@ -15,24 +15,8 @@ public class Queen extends Piece {
    }
 
    @Override
-   boolean canMove(Field destination) {
+   Set<Move> getValidMoves() {
 
-      return false;
-   }
-
-   @Override
-   void move() {
-
-   }
-
-   @Override
-   boolean isCheckingEnemyKing() {
-
-      return false;
-   }
-
-   @Override
-   public void validate(Move move) throws InvalidMoveException {
-      // todo
+      return null;
    }
 }

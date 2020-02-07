@@ -1,24 +1,19 @@
 package com.brama.chess.core.board;
 
-import static com.brama.chess.core.MoveValidator.finishingAMoveWouldLeavePlayerInCheck;
-import static com.brama.chess.core.MoveValidator.validateThatFieldIsOnBoard;
-import static com.brama.chess.core.MoveValidator.validateThatMoveIsNotInAStill;
-import static com.brama.chess.core.MoveValidator.validateThatMovingPieceExists;
-import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsNotCapturingOpponentsKing;
-import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsNotCapturingPlayingColor;
-import static com.brama.chess.core.MoveValidator.validateThatMovingPieceIsPlayingColor;
-
 import com.brama.chess.core.Move;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import static com.brama.chess.core.MoveValidator.*;
 
 public abstract class Board {
 

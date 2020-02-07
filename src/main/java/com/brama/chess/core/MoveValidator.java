@@ -12,8 +12,8 @@ import com.brama.chess.core.fauls.WrongPieceException;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
-
 import com.brama.chess.core.pieces.properties.PieceType;
+
 import java.util.Optional;
 import java.util.Set;
 

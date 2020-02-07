@@ -6,7 +6,9 @@ import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
+
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Piece {
 
@@ -40,18 +42,6 @@ public abstract class Piece {
       }
    }
 
-   abstract boolean isCheckingEnemyKing();
-
-   abstract boolean canMove(Field destination);
-
-   abstract void move();
-
-   // King can't be taken
-   boolean canBeCaptured() {
-
-      return true;
-   }
-
    public PieceType getType() {
 
       return type;
@@ -71,13 +61,19 @@ public abstract class Piece {
 
       try {
          validate(move);
-      } catch (InvalidMoveException e) {
+      }
+      catch (InvalidMoveException e) {
          return false;
       }
       return true;
    }
 
-   public abstract void validate(Move move) throws InvalidMoveException;
+   public void validate(Move move) throws InvalidMoveException {
+
+      if (!getValidMoves().contains(move)) {
+         throw new InvalidMoveException();
+      }
+   }
 
    public Board getBoard() {
 
@@ -88,4 +84,18 @@ public abstract class Piece {
 
       return moveCounter;
    }
+
+   public boolean destinationIsFree(Move move) {
+
+      return !getBoard().getPiece(move.getDestination()).isPresent();
+   }
+
+   public boolean destinationIsOccupiedByOpponent(Move move) {
+
+      Board board = getBoard();
+      Optional<Piece> piece = board.getPiece(move.getDestination());
+      return piece.isPresent() && piece.get().getColor().equals(board.getWaitingColor());
+   }
+
+   abstract Set<Move> getValidMoves();
 }

@@ -1,19 +1,15 @@
 package com.brama.chess.core.pieces;
 
 import com.brama.chess.core.Move;
-import com.brama.chess.core.MoveBuilder;
 import com.brama.chess.core.board.Board;
-import com.brama.chess.core.board.Field;
-import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.brama.chess.core.MoveBuilder.moveFor;
+import static com.brama.chess.core.MoveBuilder.*;
 
 public class King extends Piece {
 
@@ -23,34 +19,7 @@ public class King extends Piece {
    }
 
    @Override
-   boolean canMove(Field destination) {
-
-      return false;
-   }
-
-   @Override
-   void move() {
-
-   }
-
-   @Override
-   boolean isCheckingEnemyKing() {
-
-      return false;
-   }
-
-   @Override
-   public void validate(Move move) throws InvalidMoveException {
-      Set<Move> validMoves = new HashSet<>();
-
-      validMoves.addAll(getValidMoves());
-
-      if (!validMoves.contains(move)) {
-         throw new InvalidMoveException();
-      }
-   }
-
-   private Set<Move> getValidMoves() {
+   Set<Move> getValidMoves() {
 
       Set<Move> moves = new HashSet<>();
       moveFor(this).forward().build().ifPresent(moves::add);
@@ -70,13 +39,5 @@ public class King extends Piece {
       return destinationIsFree(move) || destinationIsOccupiedByOpponent(move);
    }
 
-   private boolean destinationIsOccupiedByOpponent(Move move) {
-      Board board = getBoard();
-      Optional<Piece> piece = board.getPiece(move.getDestination());
-      return piece.isPresent() && piece.get().getColor().equals(board.getWaitingColor());
-   }
 
-   private boolean destinationIsFree(Move forward) {
-      return getBoard().getPiece(forward.getDestination()).isPresent();
-   }
 }
