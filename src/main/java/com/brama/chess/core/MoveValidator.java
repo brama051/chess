@@ -14,6 +14,7 @@ import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -78,7 +79,8 @@ public class MoveValidator {
       return destinationPiece.isPresent() && turn.equals(destinationPiece.get().getColor());
    }
 
-   public static void validateThatMovingPieceIsNotCapturingPlayingColor(PieceColor turn, Optional<Piece> opponentsPiece) throws FriendlyFireException {
+   public static void validateThatMovingPieceIsNotCapturingPlayingColor(PieceColor turn,
+                                                                        Optional<Piece> opponentsPiece) throws FriendlyFireException {
 
       if (movingPieceIsCapturingCapturingPlayingColor(turn, opponentsPiece)) {
          throw new FriendlyFireException();
@@ -86,7 +88,7 @@ public class MoveValidator {
    }
 
    public static void validateThatMovingPieceIsNotCapturingOpponentsKing(Optional<Piece> piece)
-         throws CapturingKingException {
+      throws CapturingKingException {
 
       if (movingPieceIsCapturingOpponentsKing(piece)) {
          throw new CapturingKingException();
@@ -99,12 +101,12 @@ public class MoveValidator {
    }
 
    public static boolean atLeastOneOpposingPieceCanCheckPlayingKing(Set<Piece> opposingPieces,
-         King playingKing) {
+                                                                    King playingKing) {
 
       for (Piece opposingPiece : opposingPieces) {
          Move attackMove = new Move(
-               opposingPiece.getLocation().orElseThrow(RuntimeException::new),
-               playingKing.getLocation().orElseThrow(RuntimeException::new)
+            opposingPiece.getLocation().orElseThrow(RuntimeException::new),
+            playingKing.getLocation().orElseThrow(RuntimeException::new)
          );
 
          if (opposingPiece.isValidMove(attackMove)) {
@@ -116,21 +118,18 @@ public class MoveValidator {
    }
 
    public static void finishingAMoveWouldLeavePlayerInCheck(Move move,
-         Board board, Set<Piece> allPieces, King king) throws CheckException {
+                                                            Board board, Set<Piece> allPieces, King king) throws CheckException {
 
       Optional<Piece> capturedPiece = board.capture(move, false);
 
+      Set<Piece> allPiecesCopy = new HashSet<>(allPieces);
+      capturedPiece.ifPresent(allPiecesCopy::remove);
       // todo: this can be generic check inserted as lambda function
-      if (atLeastOneOpposingPieceCanCheckPlayingKing(allPieces, king)) {
+      if (atLeastOneOpposingPieceCanCheckPlayingKing(allPiecesCopy, king)) {
          board.revert(move, capturedPiece, false);
          throw new CheckException();
       }
       board.revert(move, capturedPiece, false);
-   }
-
-   public static boolean pieceIsOfColor(Optional<Piece> piece, PieceColor targetedColor) {
-
-      return piece.isPresent() && piece.get().getColor().equals(targetedColor);
    }
 
 }

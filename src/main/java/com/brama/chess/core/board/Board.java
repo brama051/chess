@@ -94,8 +94,8 @@ public abstract class Board {
                                                         getPiece(move.getDestination()));
       validateThatMovingPieceIsNotCapturingOpponentsKing(getPiece(move.getDestination()));
 
-      /*finishingAMoveWouldLeavePlayerInCheck(move, this, getAllPieces(getWaitingColor()),
-                                            getKing(getPlayingColor()));*/
+      finishingAMoveWouldLeavePlayerInCheck(move, this, getAllPieces(getWaitingColor()),
+                                            getKing(getPlayingColor()));
 
       performMovingPieceValidation(move);
    }
@@ -197,11 +197,6 @@ public abstract class Board {
 
       Optional<Piece> piece = getPiece(move.getDestination());
       return piece.isPresent() && piece.get().getColor().equals(getWaitingColor());
-   }
-
-   public boolean destinationIsOccupied(Move move) {
-
-      return getPiece(move.getDestination()).isPresent();
    }
 
    public boolean destinationIsOccupiedByEnemyKing(Move move) {
