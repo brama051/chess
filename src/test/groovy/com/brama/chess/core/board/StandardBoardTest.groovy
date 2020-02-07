@@ -39,7 +39,21 @@ class StandardBoardTest extends Specification {
         7   | 5   | WHITE | BISHOP
         7   | 6   | WHITE | KNIGHT
         7   | 7   | WHITE | ROOK
-
+        1   | 0   | BLACK | PAWN
+        1   | 1   | BLACK | PAWN
+        1   | 2   | BLACK | PAWN
+        1   | 3   | BLACK | PAWN
+        1   | 4   | BLACK | PAWN
+        1   | 5   | BLACK | PAWN
+        1   | 6   | BLACK | PAWN
+        6   | 0   | WHITE | PAWN
+        6   | 1   | WHITE | PAWN
+        6   | 2   | WHITE | PAWN
+        6   | 3   | WHITE | PAWN
+        6   | 4   | WHITE | PAWN
+        6   | 5   | WHITE | PAWN
+        6   | 6   | WHITE | PAWN
+        6   | 7   | WHITE | PAWN
 
     }
 }
