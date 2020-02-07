@@ -36,7 +36,9 @@ public class Pawn extends Piece {
          moveFor(this).forward(2).build().ifPresent(advanceMoves::add);
       }
       moveFor(this).forward().build().ifPresent(advanceMoves::add);
-      return advanceMoves.stream().filter(getBoard()::destinationIsFree).collect(Collectors.toSet());
+      return advanceMoves.stream()
+                         .filter(getBoard()::destinationIsFree)
+                         .collect(Collectors.toSet());
    }
 
    public Set<Move> getValidAttackMoves() {
