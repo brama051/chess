@@ -3,6 +3,8 @@ package com.brama.chess.core;
 import com.brama.chess.core.board.Field;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class Move {
 
@@ -30,6 +32,9 @@ public class Move {
 
       return destination;
    }
+
+   //public Optional<Move> validate(Function<>)
+
 
    @Override
    public boolean equals(Object o) {

@@ -14,7 +14,7 @@ public class MoveBuilder {
    private final int orientation;
    private Field destination;
 
-   public static MoveBuilder pieceGoes(Piece piece) {
+   public static MoveBuilder moveFor(Piece piece) {
 
       return new MoveBuilder(piece);
    }

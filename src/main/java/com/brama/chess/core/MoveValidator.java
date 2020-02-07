@@ -128,4 +128,9 @@ public class MoveValidator {
       board.revert(move, capturedPiece, false);
    }
 
+   public static boolean pieceIsOfColor(Optional<Piece> piece, PieceColor targetedColor) {
+
+      return piece.isPresent() && piece.get().getColor().equals(targetedColor);
+   }
+
 }

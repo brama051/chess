@@ -1,15 +1,17 @@
 package com.brama.chess.core.pieces;
 
 import com.brama.chess.core.Move;
-import com.brama.chess.core.MoveBuilder;
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
 import com.brama.chess.core.fauls.InvalidMoveException;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.brama.chess.core.MoveBuilder.moveFor;
+import static com.brama.chess.core.MoveValidator.pieceIsOfColor;
 
 public class Pawn extends Piece {
 
@@ -52,31 +54,40 @@ public class Pawn extends Piece {
 
       Set<Move> advanceMoves = new HashSet<>();
       if (getMoveCounter() < 1) {
-         new MoveBuilder(this).forward(2).build().ifPresent(advanceMoves::add);
+         moveFor(this).forward(2).build().ifPresent(advanceMoves::add);
       }
+      moveFor(this).forward().build().ifPresent(advanceMoves::add);
+      return advanceMoves.stream().filter(this::isValidAdvanceMove).collect(Collectors.toSet());
+   }
 
-      return advanceMoves;
+   private boolean isValidAdvanceMove(Move advanceMove) {
+
+      return destinationIsFree(advanceMove);
+   }
+
+   private boolean destinationIsFree(Move move) {
+
+      return !getBoard().getPiece(move.getDestination()).isPresent();
    }
 
    public Set<Move> getValidAttackMoves() {
 
       Set<Move> attackMoves = new HashSet<>();
+      moveFor(this).forwardLeft().build().ifPresent(attackMoves::add);
+      moveFor(this).forwardRight().build().ifPresent(attackMoves::add);
 
-      Optional<Move> forwardLeftAttack = new MoveBuilder(this).forwardLeft().build();
-      if (forwardLeftAttack.isPresent() && pieceIsOfColor(
-            getBoard().getPiece(forwardLeftAttack.get().getDestination()),
-            getBoard().getWaitingColor())) {
-
-      }
-
-      Optional<Move> forwardRightAttack = new MoveBuilder(this).forwardRight().build();
-
-      return attackMoves;
+      return attackMoves.stream().filter(this::isValidAttackMove).collect(Collectors.toSet());
    }
 
-   private boolean pieceIsOfColor(Optional<Piece> piece, PieceColor targetedColor) {
+   private boolean isValidAttackMove(Move attackMove) {
 
-      return piece.isPresent() && piece.get().getColor().equals(targetedColor);
+      return opponentIsOnAttackedField(attackMove);
+   }
+
+   private boolean opponentIsOnAttackedField(Move sidewaysAttack) {
+      return pieceIsOfColor(
+            getBoard().getPiece(sidewaysAttack.getDestination()),
+            getBoard().getWaitingColor());
    }
 
 
