@@ -31,12 +31,9 @@ public class King extends Piece {
       moveFor(this).backwardLeft().build().ifPresent(moves::add);
       moveFor(this).backwardRight().build().ifPresent(moves::add);
 
-      return moves.stream().filter(this::isValid).collect(Collectors.toSet());
-   }
-
-   private boolean isValid(Move move) {
-
-      return destinationIsFree(move) || destinationIsOccupiedByOpponent(move);
+      return moves.stream()
+                  .filter(move -> destinationIsFree(move) || destinationIsOccupiedByOpponent(move))
+                  .collect(Collectors.toSet());
    }
 
 
