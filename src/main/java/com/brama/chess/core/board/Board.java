@@ -211,9 +211,4 @@ public abstract class Board {
              && attackedPiece.get().getType().equals(PieceType.KING);
 
    }
-
-   public Move getLastMove() {
-
-      return lastMove;
-   }
 }
