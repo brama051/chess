@@ -13,13 +13,13 @@ import static com.brama.chess.core.moves.MoveValidator.*;
 
 public abstract class Board {
 
-   final Piece[][] fields;
+   protected final Piece[][] fields;
    private final Set<Piece> capturedPieces;
    private final int height;
    private final int width;
    private int turn;
 
-   Board(int height, int width, Piece[][] fields) {
+   public Board(int height, int width, Piece[][] fields) {
 
       this.height = height;
       this.width = width;
