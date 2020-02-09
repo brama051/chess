@@ -21,7 +21,12 @@ public class MoveBuilder {
 
    public MoveBuilder(Piece piece) {
 
-      this(piece.getBoard(), piece.getLocation().orElseThrow(RuntimeException::new), getOrientation(piece.getColor()));
+      this(piece.getBoard(), piece.getLocation().orElseThrow(RuntimeException::new), piece.getColor());
+   }
+
+   public MoveBuilder(Board board, Field source, PieceColor color) {
+
+      this(board, source, getOrientation(color));
    }
 
    public MoveBuilder(Board board, Field source, int orientation) {

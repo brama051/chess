@@ -42,4 +42,10 @@ public class Field {
 
       return Objects.hash(x, y);
    }
+
+   @Override
+   public String toString() {
+
+      return String.format("%c%c", getX() + 97, 56 - getY());
+   }
 }
