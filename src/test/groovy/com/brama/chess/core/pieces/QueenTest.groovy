@@ -4,7 +4,6 @@ import com.brama.chess.core.board.Board
 import com.brama.chess.core.board.Field
 import com.brama.chess.core.moves.Move
 import com.brama.chess.core.pieces.properties.PieceColor
-import com.brama.chess.core.renderer.TextualRenderer
 import spock.lang.Specification
 
 class QueenTest extends Specification {
@@ -14,7 +13,7 @@ class QueenTest extends Specification {
         def src = new Field(0, 1)
         Piece queen = board.getPiece(src).get()
 
-        new TextualRenderer().renderBoard(board)
+        // new TextualRenderer().renderBoard(board)
         def moves = queen.getValidMoves()
 
         expect:
@@ -39,7 +38,7 @@ class QueenTest extends Specification {
     private class SmallBoard extends Board {
 
         SmallBoard() {
-            super(5,5, new Piece[5][5])
+            super(5, 5, new Piece[5][5])
 
             fields[0][0] = new Pawn(PieceColor.WHITE, this)
             fields[0][1] = new Queen(PieceColor.WHITE, this)
