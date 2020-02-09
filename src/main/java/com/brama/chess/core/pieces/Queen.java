@@ -25,7 +25,6 @@ public class Queen extends LineMovingPiece {
 
       return moves.stream()
                   .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
-                  .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
                   .collect(Collectors.toSet());
    }
 }

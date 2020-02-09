@@ -49,7 +49,6 @@ public class Pawn extends Piece {
 
       return attackMoves.stream()
                         .filter(getBoard()::destinationIsOccupiedByOpponent)
-                        .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
                         .collect(Collectors.toSet());
    }
 }

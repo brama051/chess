@@ -192,7 +192,7 @@ public abstract class Board {
    public boolean destinationIsOccupiedByOpponent(Move move) {
 
       Optional<Piece> piece = getPiece(move.getDestination());
-      return piece.isPresent() && piece.get().getColor().equals(getWaitingColor());
+      return piece.isPresent() && piece.get().getColor().equals(getPlayingColor());
    }
 
    public boolean destinationIsOccupiedByEnemyKing(Move move) {

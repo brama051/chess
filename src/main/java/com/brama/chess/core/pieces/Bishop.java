@@ -20,7 +20,6 @@ public class Bishop extends LineMovingPiece {
 
       return getDiagonalMoves().stream()
                                .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
-                               .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
                                .collect(Collectors.toSet());
    }
 }

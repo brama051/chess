@@ -56,4 +56,6 @@ class StandardBoardTest extends Specification {
         6   | 7   | WHITE | PAWN
 
     }
+
+
 }

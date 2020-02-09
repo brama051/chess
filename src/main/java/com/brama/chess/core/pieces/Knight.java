@@ -33,7 +33,6 @@ public class Knight extends Piece {
 
       return moves.stream()
                   .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
-                  .filter(move -> !getBoard().destinationIsOccupiedByEnemyKing(move))
                   .collect(Collectors.toSet());
    }
 }
