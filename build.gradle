@@ -19,3 +19,13 @@ dependencies {
 
     compile files('libs/userinput.jar')
 }
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.brama.chess.GameRunner"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
