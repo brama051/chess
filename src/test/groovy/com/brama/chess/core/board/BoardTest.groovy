@@ -151,7 +151,7 @@ class BoardTest extends Specification {
         exceptions[0].getClass() == InvalidMoveException
         exceptions[1].getClass() == WrongPieceException
         exceptions[2].getClass() == InvalidMoveException
-        exceptions[0].getClass() == WrongPieceException
+        exceptions[3].getClass() == WrongPieceException
         exceptions[4].getClass() == InvalidMoveException
 
         where:
