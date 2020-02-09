@@ -16,7 +16,7 @@ class KnightTest extends Specification {
 
             getPieceLocation(_ as Piece) >> Optional.of(src)
             destinationIsFree(_ as Move) >> true
-            destinationIsOccupiedByOpponent(_ as Move) >> false
+            destinationIsOccupiedByOpponent(_ as Move, _ as PieceColor) >> false
             destinationIsOccupiedByEnemyKing(_ as Move) >> false
         } as Board
 
@@ -45,7 +45,7 @@ class KnightTest extends Specification {
 
             getPieceLocation(_ as Piece) >> Optional.of(src)
             destinationIsFree(_ as Move) >> true
-            destinationIsOccupiedByOpponent(_ as Move) >> false
+            destinationIsOccupiedByOpponent(_ as Move, _ as PieceColor) >> false
             destinationIsOccupiedByEnemyKing(_ as Move) >> false
         } as Board
 

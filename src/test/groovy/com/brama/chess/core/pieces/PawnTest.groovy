@@ -16,7 +16,7 @@ class PawnTest extends Specification {
 
             getPieceLocation(_ as Piece) >> Optional.of(src)
             destinationIsFree(_ as Move) >> true
-            destinationIsOccupiedByOpponent(_ as Move) >> false
+            destinationIsOccupiedByOpponent(_ as Move, _ as PieceColor) >> false
             destinationIsOccupiedByEnemyKing(_ as Move) >> false
         } as Board
 
@@ -39,7 +39,7 @@ class PawnTest extends Specification {
 
             getPieceLocation(_ as Piece) >> Optional.of(src)
             destinationIsFree(_ as Move) >> false
-            destinationIsOccupiedByOpponent(_ as Move) >> true
+            destinationIsOccupiedByOpponent(_ as Move, _ as PieceColor) >> true
             destinationIsOccupiedByEnemyKing(_ as Move) >> false
         } as Board
 
@@ -62,7 +62,7 @@ class PawnTest extends Specification {
 
             getPieceLocation(_ as Piece) >> Optional.of(src)
             destinationIsFree(_ as Move) >> true
-            destinationIsOccupiedByOpponent(_ as Move) >> false
+            destinationIsOccupiedByOpponent(_ as Move, _ as PieceColor) >> false
             destinationIsOccupiedByEnemyKing(_ as Move) >> false
         } as Board
 

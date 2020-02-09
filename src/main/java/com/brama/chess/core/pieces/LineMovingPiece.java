@@ -152,7 +152,7 @@ public abstract class LineMovingPiece extends Piece {
             if (getBoard().destinationIsFree(move.get())) {
                move.ifPresent(moves::add);
             }
-            else if (getBoard().destinationIsOccupiedByOpponent(move.get())) {
+            else if (getBoard().destinationIsOccupiedByOpponent(move.get(), this.getColor())) {
                move.ifPresent(moves::add);
                cameFurthestPossible = true;
             }

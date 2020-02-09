@@ -189,10 +189,11 @@ public abstract class Board {
       return !getPiece(move.getDestination()).isPresent();
    }
 
-   public boolean destinationIsOccupiedByOpponent(Move move) {
+   public boolean destinationIsOccupiedByOpponent(Move move,
+         PieceColor playingColor) {
 
       Optional<Piece> piece = getPiece(move.getDestination());
-      return piece.isPresent() && piece.get().getColor().equals(getPlayingColor());
+      return piece.isPresent() && !piece.get().getColor().equals(playingColor);
    }
 
    public boolean destinationIsOccupiedByEnemyKing(Move move) {

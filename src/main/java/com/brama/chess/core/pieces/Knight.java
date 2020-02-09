@@ -32,7 +32,8 @@ public class Knight extends Piece {
       moveFor(this).left(2).backward().build().ifPresent(moves::add);
 
       return moves.stream()
-                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
+                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move,
+                        this.getColor()))
                   .collect(Collectors.toSet());
    }
 }

@@ -4,6 +4,7 @@ import com.brama.chess.core.board.Board
 import com.brama.chess.core.board.Field
 import com.brama.chess.core.moves.Move
 import com.brama.chess.core.pieces.properties.PieceColor
+import com.brama.chess.core.renderer.TextualRenderer
 import spock.lang.Specification
 
 class BishopTest extends Specification {
@@ -14,7 +15,7 @@ class BishopTest extends Specification {
         def src = new Field(0, 1)
         Piece bishop = board.getPiece(src).get()
 
-        // new TextualRenderer().renderBoard(board)
+        new TextualRenderer().renderBoard(board)
         def moves = bishop.getValidMoves()
 
         expect:

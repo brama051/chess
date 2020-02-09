@@ -48,7 +48,8 @@ public class Pawn extends Piece {
       moveFor(this).forwardRight().build().ifPresent(attackMoves::add);
 
       return attackMoves.stream()
-                        .filter(getBoard()::destinationIsOccupiedByOpponent)
+                        .filter(move -> getBoard()
+                              .destinationIsOccupiedByOpponent(move, this.getColor()))
                         .collect(Collectors.toSet());
    }
 }

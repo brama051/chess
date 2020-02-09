@@ -19,7 +19,7 @@ public class Bishop extends LineMovingPiece {
    Set<Move> getValidMoves() {
 
       return getDiagonalMoves().stream()
-                               .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
+                               .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move, this.getColor()))
                                .collect(Collectors.toSet());
    }
 }

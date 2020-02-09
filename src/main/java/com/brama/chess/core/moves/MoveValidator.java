@@ -2,12 +2,17 @@ package com.brama.chess.core.moves;
 
 import com.brama.chess.core.board.Board;
 import com.brama.chess.core.board.Field;
-import com.brama.chess.core.fauls.*;
+import com.brama.chess.core.fauls.CapturingKingException;
+import com.brama.chess.core.fauls.CheckException;
+import com.brama.chess.core.fauls.EmptyFieldException;
+import com.brama.chess.core.fauls.FriendlyFireException;
+import com.brama.chess.core.fauls.LeavingBoardException;
+import com.brama.chess.core.fauls.StandingStillException;
+import com.brama.chess.core.fauls.WrongPieceException;
 import com.brama.chess.core.pieces.King;
 import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -18,12 +23,13 @@ public class MoveValidator {
    public static boolean fieldIsOnBoard(Field destination, int width, int height) {
 
       return !(destination.getX() < 0
-               || destination.getX() > width - 1
-               || destination.getY() < 0
-               || destination.getY() > height - 1);
+            || destination.getX() > width - 1
+            || destination.getY() < 0
+            || destination.getY() > height - 1);
    }
 
-   public static void validateThatFieldIsOnBoard(Field destination, int width, int height) throws LeavingBoardException {
+   public static void validateThatFieldIsOnBoard(Field destination, int width, int height)
+         throws LeavingBoardException {
 
       if (!fieldIsOnBoard(destination, width, height)) {
          throw new LeavingBoardException();
@@ -48,7 +54,8 @@ public class MoveValidator {
       return piece.isPresent();
    }
 
-   public static void validateThatMovingPieceExists(Optional<Piece> piece) throws EmptyFieldException {
+   public static void validateThatMovingPieceExists(Optional<Piece> piece)
+         throws EmptyFieldException {
 
       if (!movingPieceExists(piece)) {
          throw new EmptyFieldException();
@@ -60,21 +67,22 @@ public class MoveValidator {
       return piece.isPresent() && piece.get().getColor().equals(turn);
    }
 
-   public static void validateThatMovingPieceIsPlayingColor(Optional<Piece> piece, PieceColor turn) throws WrongPieceException {
+   public static void validateThatMovingPieceIsPlayingColor(Optional<Piece> piece, PieceColor turn)
+         throws WrongPieceException {
 
       if (!movingPieceIsTheRightColor(piece, turn)) {
          throw new WrongPieceException();
       }
    }
 
-   public static boolean movingPieceIsCapturingCapturingPlayingColor(PieceColor turn, Optional<Piece> destinationPiece) {
-
+   public static boolean movingPieceIsCapturingCapturingPlayingColor(PieceColor turn,
+         Optional<Piece> destinationPiece) {
 
       return destinationPiece.isPresent() && turn.equals(destinationPiece.get().getColor());
    }
 
    public static void validateThatMovingPieceIsNotCapturingPlayingColor(PieceColor turn,
-                                                                        Optional<Piece> opponentsPiece) throws FriendlyFireException {
+         Optional<Piece> opponentsPiece) throws FriendlyFireException {
 
       if (movingPieceIsCapturingCapturingPlayingColor(turn, opponentsPiece)) {
          throw new FriendlyFireException();
@@ -82,7 +90,7 @@ public class MoveValidator {
    }
 
    public static void validateThatMovingPieceIsNotCapturingOpponentsKing(Optional<Piece> piece)
-      throws CapturingKingException {
+         throws CapturingKingException {
 
       if (movingPieceIsCapturingOpponentsKing(piece)) {
          throw new CapturingKingException();
@@ -95,12 +103,12 @@ public class MoveValidator {
    }
 
    public static boolean atLeastOneOpposingPieceCanCheckPlayingKing(Set<Piece> opposingPieces,
-                                                                    King playingKing) {
+         King playingKing) {
 
       for (Piece opposingPiece : opposingPieces) {
          Move attackMove = new Move(
-            opposingPiece.getLocation().orElseThrow(RuntimeException::new),
-            playingKing.getLocation().orElseThrow(RuntimeException::new)
+               opposingPiece.getLocation().orElseThrow(RuntimeException::new),
+               playingKing.getLocation().orElseThrow(RuntimeException::new)
          );
 
          if (opposingPiece.isValidMove(attackMove)) {
@@ -112,7 +120,8 @@ public class MoveValidator {
    }
 
    public static void finishingAMoveWouldLeavePlayerInCheck(Move move,
-                                                            Board board, Set<Piece> allPieces, King king) throws CheckException {
+         Board board,
+         Set<Piece> allPieces, King king) throws CheckException {
 
       Optional<Piece> capturedPiece = board.capture(move, false);
 

@@ -24,7 +24,8 @@ public class Queen extends LineMovingPiece {
       moves.addAll(getDiagonalMoves());
 
       return moves.stream()
-                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move))
+                  .filter(move -> getBoard().destinationIsFree(move) || getBoard().destinationIsOccupiedByOpponent(move,
+                        this.getColor()))
                   .collect(Collectors.toSet());
    }
 }
