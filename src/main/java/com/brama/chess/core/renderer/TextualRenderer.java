@@ -40,7 +40,12 @@ public class TextualRenderer implements BoardRenderer {
    public void renderStatus(Board board) {
 
       System.out.println();
-      System.out.println(String.format("Turn: %s", board.getPlayingColor()));
+      if (board.playingKingIsInCheck()) {
+         System.out.println(String.format("Turn: %s (IN CHECK)", board.getPlayingColor()));
+      }
+      else {
+         System.out.println(String.format("Turn: %s", board.getPlayingColor()));
+      }
    }
 
    @Override

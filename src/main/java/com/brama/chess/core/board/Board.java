@@ -7,7 +7,11 @@ import com.brama.chess.core.pieces.Piece;
 import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.brama.chess.core.moves.MoveValidator.*;
 
@@ -96,6 +100,10 @@ public abstract class Board {
       performMovingPieceValidation(move);
    }
 
+   public boolean playingKingIsInCheck() {
+
+      return atLeastOneOpposingPieceCanCheckPlayingKing(getAllPieces(getWaitingColor()), getKing(getPlayingColor()));
+   }
 
    private void performMovingPieceValidation(Move move) throws InvalidMoveException {
 
@@ -190,7 +198,7 @@ public abstract class Board {
    }
 
    public boolean destinationIsOccupiedByOpponent(Move move,
-         PieceColor playingColor) {
+                                                  PieceColor playingColor) {
 
       Optional<Piece> piece = getPiece(move.getDestination());
       return piece.isPresent() && !piece.get().getColor().equals(playingColor);

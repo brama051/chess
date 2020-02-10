@@ -30,5 +30,6 @@ public class GameRunner {
          game.move(move);
          game.renderBoard();
       }
+      game.renderTurn();
    }
 }
