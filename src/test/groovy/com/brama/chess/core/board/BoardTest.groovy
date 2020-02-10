@@ -6,6 +6,7 @@ import com.brama.chess.core.fauls.WrongPieceException
 import com.brama.chess.core.moves.Move
 import com.brama.chess.reader.ResourcesFileReader
 import com.whitehatgaming.UserInput
+import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -13,6 +14,7 @@ import static com.brama.chess.core.pieces.properties.PieceColor.BLACK
 import static com.brama.chess.core.pieces.properties.PieceColor.WHITE
 import static com.brama.chess.core.pieces.properties.PieceType.*
 
+@Ignore
 class BoardTest extends Specification {
 
     @Unroll
