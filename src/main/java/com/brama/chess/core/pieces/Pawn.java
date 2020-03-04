@@ -6,6 +6,7 @@ import com.brama.chess.core.pieces.properties.PieceColor;
 import com.brama.chess.core.pieces.properties.PieceType;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,10 +33,12 @@ public class Pawn extends Piece {
    private Set<Move> getValidAdvanceMoves() {
 
       Set<Move> advanceMoves = new HashSet<>();
-      if (getMoveCounter() < 1) {
+
+      Optional<Move> forwardMove = moveFor(this).forward().build();
+      if (getMoveCounter() < 1 && forwardMove.isPresent() && getBoard().destinationIsFree(forwardMove.get())) {
          moveFor(this).forward(2).build().ifPresent(advanceMoves::add);
       }
-      moveFor(this).forward().build().ifPresent(advanceMoves::add);
+      forwardMove.ifPresent(advanceMoves::add);
       return advanceMoves.stream()
                          .filter(getBoard()::destinationIsFree)
                          .collect(Collectors.toSet());
